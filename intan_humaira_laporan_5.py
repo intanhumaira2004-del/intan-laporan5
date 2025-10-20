@@ -16,15 +16,37 @@ from streamlit_lottie import st_lottie
 st.set_page_config(page_title="Neura HoloLab 3D", page_icon="🛸", layout="wide")
 
 # ==========================
-# Fungsi untuk Lottie Animation
+# Load Lottie
 # ==========================
-def load_lottie_url(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
+from streamlit_lottie import st_lottie
 
-lottie_scan = load_lottie_url("https://assets5.lottiefiles.com/packages/lf20_gs1k4t7p.json")
+def load_lottie_url(url):
+    try:
+        r = requests.get(url)
+        if r.status_code == 200:
+            return r.json()
+        else:
+            return None
+    except:
+        return None
+
+# Gunakan URL Lottie yang aktif atau fallback
+lottie_scan = load_lottie_url("https://lottie.host/30b58e1c-6b67-4b8a-bbb8-bb8ee1b26b47/1abGxnmqlq.json")
+
+# Jika gagal, buat JSON kosong supaya tidak error
+if lottie_scan is None:
+    lottie_scan = {
+        "v": "5.7.4",
+        "fr": 30,
+        "ip": 0,
+        "op": 60,
+        "w": 100,
+        "h": 100,
+        "nm": "Fallback animation",
+        "ddd": 0,
+        "assets": [],
+        "layers": []
+    }
 
 # ==========================
 # Load Model YOLO dan Keras
