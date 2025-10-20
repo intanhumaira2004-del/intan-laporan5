@@ -4,28 +4,30 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import numpy as np
-import requests, random, time
+import requests, random
 import plotly.graph_objects as go
 from io import BytesIO
 import base64
+from streamlit_lottie import st_lottie
 
 # ==========================
-# Config halaman
+# Konfigurasi Halaman
 # ==========================
 st.set_page_config(page_title="Neura HoloLab 3D", page_icon="🛸", layout="wide")
 
 # ==========================
-# Load Lottie
+# Fungsi untuk Lottie Animation
 # ==========================
 def load_lottie_url(url):
     r = requests.get(url)
-    if r.status_code != 200: return None
+    if r.status_code != 200:
+        return None
     return r.json()
 
 lottie_scan = load_lottie_url("https://assets5.lottiefiles.com/packages/lf20_gs1k4t7p.json")
 
 # ==========================
-# Load Model
+# Load Model YOLO dan Keras
 # ==========================
 @st.cache_resource
 def load_models():
@@ -36,16 +38,16 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # ==========================
-# Sidebar
+# Sidebar Navigasi
 # ==========================
 with st.sidebar:
     st.title("🛸 Neura HoloLab 3D")
     mode = st.radio("Mode:", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
-    uploaded_file = st.file_uploader("Unggah Gambar", type=["jpg","jpeg","png"])
+    uploaded_file = st.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "png"])
     st.caption("Upload file untuk analisis AI holographic")
 
 # ==========================
-# CSS Futuristik
+# CSS Tema Futuristik
 # ==========================
 st.markdown("""
 <style>
@@ -60,13 +62,13 @@ h1,h2,h3 { color:#00FFF7; text-align:center; text-shadow:0 0 20px #00FFF7;}
 """, unsafe_allow_html=True)
 
 # ==========================
-# Header
+# Header Utama
 # ==========================
 st.markdown("<h1>🛸 NEURA HOLOLAB 3D</h1>", unsafe_allow_html=True)
 st.markdown("<hr style='border:1px solid #00FFF7;'>", unsafe_allow_html=True)
 
 # ==========================
-# Fungsi bantu
+# Fungsi Utility Gambar
 # ==========================
 def image_to_base64(img: Image.Image):
     buffered = BytesIO()
@@ -81,51 +83,71 @@ def display_image(img, rotate=False):
     """, unsafe_allow_html=True)
 
 # ==========================
-# Fungsi Mode Mapping
+# Fungsi Mode: YOLO
 # ==========================
 def run_yolo(img):
     results = yolo_model(img)
     result_img = results[0].plot()
-    display_image(result_img)
-    
-    # Pie chart objek
+    display_image(Image.fromarray(result_img))
+
+    # Hitung jumlah objek
     obj_counts = {}
     for box in results[0].boxes.cls:
         label = results[0].names[int(box)]
-        obj_counts[label] = obj_counts.get(label,0)+1
+        obj_counts[label] = obj_counts.get(label, 0) + 1
+
     if obj_counts:
-        fig = go.Figure(go.Pie(labels=list(obj_counts.keys()), values=list(obj_counts.values()),
-                               hole=0.4, marker_colors=['#00FFF7','#0ff','#0aa','#0f5']))
-        fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                          font_color='cyan', title="📊 Komposisi Objek")
+        fig = go.Figure(go.Pie(
+            labels=list(obj_counts.keys()),
+            values=list(obj_counts.values()),
+            hole=0.4,
+            marker_colors=['#00FFF7', '#0ff', '#0aa', '#0f5']
+        ))
+        fig.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font_color='cyan',
+            title="📊 Komposisi Objek"
+        )
         st.plotly_chart(fig, use_container_width=True)
 
+# ==========================
+# Fungsi Mode: Klasifikasi
+# ==========================
 def run_classifier(img):
-    img_resized = img.resize((224,224))
-    img_array = np.expand_dims(image.img_to_array(img_resized)/255.0, axis=0)
+    img_resized = img.resize((224, 224))
+    img_array = np.expand_dims(image.img_to_array(img_resized) / 255.0, axis=0)
     pred = classifier.predict(img_array)
     class_idx = np.argmax(pred)
     conf = float(np.max(pred))
-    
-    # Bar chart neon
+
+    # Bar chart hasil prediksi
     labels = [f"Kelas {i}" for i in range(len(pred[0]))]
     fig = go.Figure(go.Bar(x=labels, y=pred[0], marker_color='cyan'))
-    fig.update_layout(plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)',
-                      font_color='cyan', title="📊 Probabilitas Kelas")
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font_color='cyan',
+        title="📊 Probabilitas Kelas"
+    )
     st.plotly_chart(fig, use_container_width=True)
-    
-    # Circular gauge
+
+    # Gauge Confidence
     st.markdown(f"""
         <div class="circular-gauge" style="background: conic-gradient(#00FFF7 {conf*100}%, #0d0d0d 0%);">{conf*100:.1f}%</div>
         """, unsafe_allow_html=True)
     st.markdown(f"<h2 style='color:#00FFF7; text-shadow:0 0 15px #00FFF7;'>Kelas Utama: {class_idx}</h2>", unsafe_allow_html=True)
-    
+
     # AI Quotes
-    quotes = ["“AI sees beyond human eyes.”","“Neural networks never sleep.”","“Confidence defines intelligence.”"]
+    quotes = [
+        "“AI sees beyond human eyes.”",
+        "“Neural networks never sleep.”",
+        "“Confidence defines intelligence.”"
+    ]
     st.markdown(f"<i style='color:#00fff7;'>{random.choice(quotes)}</i>", unsafe_allow_html=True)
 
 # ==========================
-# Jalankan mode sesuai mapping
+# Pemrosesan Gambar
 # ==========================
 mode_map = {
     "Deteksi Objek (YOLO)": run_yolo,
@@ -134,13 +156,13 @@ mode_map = {
 
 if uploaded_file:
     img = Image.open(uploaded_file)
-    col1,col2 = st.columns([0.5,0.5])
+    col1, col2 = st.columns([0.5, 0.5])
     with col1:
         display_image(img, rotate=True)
         st_lottie(lottie_scan, height=300, key="holo_scan")
     with col2:
         st.markdown("<div class='floating-card'>", unsafe_allow_html=True)
-        mode_map[mode](img)  # Panggil fungsi sesuai mode tanpa if-else
+        mode_map[mode](img)
         st.markdown("</div>", unsafe_allow_html=True)
 else:
     st.info("⬅️ Unggah gambar untuk memulai analisis holographic AI.")
