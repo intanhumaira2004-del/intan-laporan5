@@ -6,3 +6,4 @@ Pillow
 numpy
 plotly
 requests
+streamlit-lottie
