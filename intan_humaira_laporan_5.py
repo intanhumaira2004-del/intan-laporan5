@@ -5,7 +5,6 @@ from tensorflow.keras.preprocessing import image
 from PIL import Image
 import numpy as np
 import requests, random, time
-from streamlit_lottie import st_lottie
 import plotly.graph_objects as go
 from io import BytesIO
 import base64
