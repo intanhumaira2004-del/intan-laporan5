@@ -102,9 +102,7 @@ with col2:
     st.markdown("""
     <div class="header-container">
         <div>
-            <div class="title-text">Neura HoloLab 3D — USK Statistics</div>
-            <div class="subtitle">Faculty of Mathematics and Natural Sciences</div>
-        </div>
+            <div class="title-text">Neura HoloLab 3D
     </div>
     """, unsafe_allow_html=True)
 
@@ -213,6 +211,6 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — USK HoloVision Dashboard | Intan Humaira 💫
+© 2025 — HoloVision Dashboard | Intan Humaira 💫
 </footer>
 """, unsafe_allow_html=True)
