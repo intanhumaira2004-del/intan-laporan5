@@ -80,18 +80,33 @@ footer {
 </style>
 """, unsafe_allow_html=True)
 
-# ==========================
-# Header dengan logo USK
-# ==========================
-st.markdown("""
-<div class="header">
-    <img src=".devcontainer/logo_usk.png">
-    <div>
-        <div class="title-text">USK HoloVision Dashboard 🌈</div>
-        <div style="font-size:16px;color:#0077aa;font-weight:500;">Faculty of Mathematics and Natural Sciences</div>
+# -------------------------
+# HEADER (FIXED — NO DOUBLE LOGO)
+# -------------------------
+logo_candidates = [
+    ".devcontainer/usk_logo.png",
+    ".devcontainer/logo_usk.png",
+    "assets/usk_logo.png",
+    "usk_logo.png"
+]
+logo_path = next((p for p in logo_candidates if os.path.exists(p)), None)
+
+col1, col2 = st.columns([0.15, 0.85])
+with col1:
+    if logo_path:
+        st.image(logo_path, use_container_width=True)
+    else:
+        st.markdown("<div style='width:90px;height:90px;background:#0b2149;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#9fd7ff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="header-container">
+        <div>
+            <div class="title-text">Neura HoloLab 3D — USK Statistics</div>
+            <div class="subtitle">Faculty of Mathematics and Natural Sciences</div>
+        </div>
     </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # ==========================
 # Load model
@@ -167,6 +182,6 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — USK HoloVision Dashboard | Universitas Syiah Kuala 💫
+© 2025 — USK HoloVision Dashboard | Intan Humaira 💫
 </footer>
 """, unsafe_allow_html=True)
