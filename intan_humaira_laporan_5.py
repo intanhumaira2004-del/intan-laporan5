@@ -165,30 +165,59 @@ st.markdown(
 st.markdown('<div class="particle-layer"></div>', unsafe_allow_html=True)
 
 # -------------------------
+# -------------------------
 # Header with USK logo (left) + title
 # -------------------------
-# We expect logo file placed at "assets/usk_logo.png" inside the repo.
+# Tambahkan folder .devcontainer tempat logo USK kamu disimpan
 logo_path_candidates = [
     "assets/usk_logo.png",
     "assets/usk_logo.jpg",
     "assets/usk_logo.svg",
     "usk_logo.png",
-    "usk_logo.jpg"
+    "usk_logo.jpg",
+    ".devcontainer/usk_logo.png",
+    ".devcontainer/usk_logo.jpg",
+    ".devcontainer/logo_usk.png",
+    ".devcontainer/logo_usk.jpg"
 ]
 
 logo_bytes = None
 logo_src = None
 for p in logo_path_candidates:
     if os.path.exists(p):
-        logo_path = p
         try:
-            with open(logo_path, "rb") as f:
+            with open(p, "rb") as f:
                 logo_bytes = f.read()
-                logo_src = "local"
+                logo_src = p
                 break
         except Exception:
-            logo_bytes = None
-            logo_src = None
+            pass
+
+# header layout
+col_h1, col_h2 = st.columns([0.18, 0.82])
+with col_h1:
+    if logo_bytes is not None:
+        st.image(logo_bytes, width=92, use_column_width=False, output_format="PNG")
+    else:
+        st.markdown("""
+        <div style='width:92px;height:92px;border-radius:10px;padding:10px;
+                    background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+                    display:flex;align-items:center;justify-content:center;
+                    border:1px solid rgba(255,255,255,0.03);'>
+            <span style='color:#cfeeff;font-weight:700'>USK</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+with col_h2:
+    st.markdown("""
+    <div class='header-card'>
+        <div>
+            <div class='site-title'>Neura HoloLab 3D — USK Statistics</div>
+            <div class='muted'>Faculty of Mathematics and Natural Sciences</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # header layout
 col_h1, col_h2 = st.columns([0.18, 0.82])
