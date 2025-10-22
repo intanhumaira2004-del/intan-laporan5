@@ -16,6 +16,38 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="USK HoloVision Dashboard", page_icon="🌈", layout="wide")
 
 # ==========================
+# Deskripsi Dataset 📚
+# ==========================
+st.markdown("""
+<div class="glass-card">
+    <h3>🧺 Deskripsi Dataset: <em>Fruits Fresh and Rotten for Classification</em></h3>
+    <p style='text-align: justify;'>
+    Dataset ini berasal dari platform 
+    <a href='https://www.kaggle.com/datasets/sriramr/fruits-fresh-and-rotten-for-classification' target='_blank'>Kaggle</a>. 
+    Dataset ini berisi kumpulan gambar buah-buahan dalam dua kondisi, yaitu <b>fresh (segar)</b> dan <b>rotten (busuk)</b>, 
+    mencakup tiga jenis buah: <b>apel, pisang, dan jeruk</b>. 
+    Setiap kombinasi menghasilkan enam kelas gambar sebagai berikut:
+    <ul>
+        <li>freshapples 🍎</li>
+        <li>rottenapples 🍏</li>
+        <li>freshbanana 🍌</li>
+        <li>rottenbanana 🍌</li>
+        <li>freshoranges 🍊</li>
+        <li>rottenoranges 🍊</li>
+    </ul>
+    Dataset terbagi menjadi dua bagian utama:
+    <br>📁 <b>Train</b>: 10.901 gambar  
+    <br>📁 <b>Test</b>: 2.698 gambar
+    <br><br>
+    Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar 
+    agar dapat mengenali kondisi buah berdasarkan penampilan visualnya. 
+    Dataset ini banyak digunakan dalam penelitian bidang <b>Computer Vision</b> dan <b>Deep Learning</b> 
+    menggunakan arsitektur <b>Convolutional Neural Network (CNN)</b>.
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ==========================
 # CSS Unik & Cerah
 # ==========================
 st.markdown("""
