@@ -115,25 +115,23 @@ st.markdown("""
     <p style='text-align: justify;'>
     Dataset ini berasal dari platform 
     <a href='https://www.kaggle.com/datasets/sriramr/fruits-fresh-and-rotten-for-classification' target='_blank'>Kaggle</a>. 
-    Dataset ini berisi kumpulan gambar buah-buahan dalam dua kondisi, yaitu <b>fresh (segar)</b> dan <b>rotten (busuk)</b>, 
-    mencakup tiga jenis buah: <b>apel, pisang, dan jeruk</b>. 
+    Dataset ini berisi kumpulan gambar buah-buahan dalam dua kondisi, yaitu fresh (segar) dan rotten (busuk), 
+    mencakup tiga jenis buah: apel, pisang, dan jeruk. 
     Setiap kombinasi menghasilkan enam kelas gambar sebagai berikut:
-    <ul>
-        <li>freshapples 🍎</li>
-        <li>rottenapples 🍏</li>
-        <li>freshbanana 🍌</li>
-        <li>rottenbanana 🍌</li>
-        <li>freshoranges 🍊</li>
-        <li>rottenoranges 🍊</li>
-    </ul>
+        <li>freshapples</li>
+        <li>rottenapples</li>
+        <li>freshbanana</li>
+        <li>rottenbanana</li>
+        <li>freshoranges</li>
+        <li>rottenoranges</li>
     Dataset terbagi menjadi dua bagian utama:
-    <br>📁 <b>Train</b>: 10.901 gambar  
-    <br>📁 <b>Test</b>: 2.698 gambar
+    <b>Train</b>: 10.901 gambar  
+    <b>Test</b>: 2.698 gambar
     <br><br>
     Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar 
     agar dapat mengenali kondisi buah berdasarkan penampilan visualnya. 
-    Dataset ini banyak digunakan dalam penelitian bidang <b>Computer Vision</b> dan <b>Deep Learning</b> 
-    menggunakan arsitektur <b>Convolutional Neural Network (CNN)</b>.
+    Dataset ini banyak digunakan dalam penelitian bidang Computer Vision dan Deep Learning 
+    menggunakan arsitektur Convolutional Neural Network (CNN).
     </p>
 </div>
 """, unsafe_allow_html=True)
