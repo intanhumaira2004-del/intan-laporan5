@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Neura HoloLab 3D - Dashboard Cerah"""
+"""USK HoloVision Dashboard 🌈 Unik & Cerah"""
 
 import streamlit as st
 from ultralytics import YOLO
@@ -13,88 +13,88 @@ import plotly.graph_objects as go
 # ==========================
 # Konfigurasi Dasar
 # ==========================
-st.set_page_config(page_title="Neura HoloLab 3D", page_icon="✨", layout="wide")
+st.set_page_config(page_title="USK HoloVision Dashboard", page_icon="🌈", layout="wide")
 
 # ==========================
-# Gaya CSS Cerah (Sky Neon Light)
+# CSS Unik & Cerah
 # ==========================
 st.markdown("""
 <style>
 .stApp {
-    background: linear-gradient(180deg, #e9f7ff 0%, #f9fcff 50%, #e1f3ff 100%);
-    color: #023047;
-    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top left, #e0f7ff, #f8fbff, #ffffff);
+    animation: gradientMove 10s ease infinite alternate;
+}
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    100% {background-position: 100% 50%;}
 }
 
-/* Header elegan */
-.header-card {
+.header {
     display:flex;
     align-items:center;
-    gap:20px;
-    padding:18px 24px;
-    border-radius:18px;
-    background: linear-gradient(120deg, rgba(240,250,255,1), rgba(210,235,255,0.95));
-    border: 1px solid rgba(160,210,255,0.7);
-    box-shadow: 0 0 30px rgba(180,220,255,0.5);
-    backdrop-filter: blur(10px);
+    justify-content:center;
+    background: rgba(255,255,255,0.7);
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
+    backdrop-filter: blur(12px);
+    margin-bottom: 25px;
 }
 
-/* Logo glowing */
-.usk-logo {
-    width:85px;
-    height:auto;
-    border-radius:12px;
-    box-shadow: 0 0 20px rgba(0,170,255,0.6);
-    animation: glowspin 10s infinite ease-in-out;
+.header img {
+    width: 100px;
+    margin-right: 20px;
+    filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
+    animation: float 4s ease-in-out infinite;
 }
 
-@keyframes glowspin {
-    0%,100% { transform: rotate(0deg); box-shadow:0 0 18px rgba(0,180,255,0.6); }
-    50% { transform: rotate(5deg); box-shadow:0 0 30px rgba(0,220,255,0.7); }
+@keyframes float {
+    0%,100% {transform: translateY(0px);}
+    50% {transform: translateY(-6px);}
 }
 
-/* Judul teks */
-.site-title {
-    font-size:30px;
-    font-weight:800;
-    background: linear-gradient(90deg,#007BFF,#00CFFF,#00E1FF);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow: 0 0 20px rgba(150,220,255,0.6);
-    animation: shimmer 6s ease-in-out infinite;
+.title-text {
+    font-size: 34px;
+    font-weight: 800;
+    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(0,180,255,0.4);
 }
 
-@keyframes shimmer {
-    0%,100% { text-shadow:0 0 15px rgba(0,180,255,0.4), 0 0 30px rgba(0,220,255,0.3); }
-    50% { text-shadow:0 0 25px rgba(0,230,255,0.6), 0 0 40px rgba(120,240,255,0.5); }
-}
-
-/* Konten */
-.section-card {
+.glass-card {
     background: rgba(255,255,255,0.75);
-    border-radius:16px;
-    padding:20px;
-    border: 1px solid rgba(180,220,255,0.6);
-    box-shadow: 0 6px 20px rgba(0,80,160,0.15);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(180,220,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
+    backdrop-filter: blur(12px);
+}
+
+footer {
+    text-align:center;
+    color:#0080b9;
+    margin-top:40px;
+    font-size:14px;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ==========================
-# Header dengan Logo USK
+# Header dengan logo USK
 # ==========================
 st.markdown("""
-<div class="header-card">
-    <img src="https://upload.wikimedia.org/wikipedia/id/2/29/Logo_Unsyiah.png" class="usk-logo">
+<div class="header">
+    <img src=".devcontainer/logo_usk.png">
     <div>
-        <div class="site-title">Neura HoloLab 3D</div>
+        <div class="title-text">USK HoloVision Dashboard 🌈</div>
+        <div style="font-size:16px;color:#0077aa;font-weight:500;">Faculty of Mathematics and Natural Sciences</div>
     </div>
+</div>
 """, unsafe_allow_html=True)
 
-st.markdown("---")
-
 # ==========================
-# Fungsi Load Model (cache)
+# Load model
 # ==========================
 @st.cache_resource
 def load_models():
@@ -103,7 +103,6 @@ def load_models():
 
     yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
     classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
-
     return yolo_model, classifier
 
 yolo_model, classifier = load_models()
@@ -111,14 +110,14 @@ yolo_model, classifier = load_models()
 # ==========================
 # Sidebar Upload & Mode
 # ==========================
-st.sidebar.title("🔧 Mode")
-mode = st.sidebar.radio("Pilih Fungsi:", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
+st.sidebar.title("🎛️ Mode Analisis")
+mode = st.sidebar.selectbox("Pilih Fungsi:", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
 uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "png"])
 
 # ==========================
 # Konten Utama
 # ==========================
-st.markdown("### 🌤️ Analisis Gambar")
+st.markdown("### 🌤️ Analisis Visual Holografik")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
@@ -127,25 +126,24 @@ if uploaded_file:
     if mode == "Deteksi Objek (YOLO)" and yolo_model:
         results = yolo_model(img)
         plotted = results[0].plot()
-        st.image(plotted, caption="Hasil Deteksi", use_container_width=True)
+        st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-        # Buat chart hasil deteksi
+        # Hitung jumlah objek
         obj_counts = {}
         for cls in results[0].boxes.cls:
             label = results[0].names[int(cls)]
             obj_counts[label] = obj_counts.get(label, 0) + 1
 
         if obj_counts:
-            fig = go.Figure(go.Bar(
-                x=list(obj_counts.keys()),
-                y=list(obj_counts.values()),
-                marker_color="#00AEEF"
+            fig = go.Figure(go.Pie(
+                labels=list(obj_counts.keys()),
+                values=list(obj_counts.values()),
+                hole=0.4,
+                marker=dict(colors=["#00CFFF","#00AEEF","#89E1FF","#0088FF"])
             ))
             fig.update_layout(
-                title="📊 Jumlah Objek Terdeteksi",
-                plot_bgcolor='rgba(0,0,0,0)',
-                paper_bgcolor='rgba(0,0,0,0)',
-                font=dict(color="#004c91")
+                title="📊 Proporsi Objek yang Terdeteksi",
+                font=dict(color="#005b96")
             )
             st.plotly_chart(fig, use_container_width=True)
         else:
@@ -155,14 +153,12 @@ if uploaded_file:
         img_resized = img.resize((224, 224))
         img_array = image.img_to_array(img_resized)
         img_array = np.expand_dims(img_array, axis=0) / 255.0
-
         prediction = classifier.predict(img_array)
         class_index = np.argmax(prediction)
         conf = np.max(prediction)
-
-        st.success(f"✅ Kelas Prediksi: **{class_index}** ({conf*100:.2f}%)")
+        st.success(f"✅ Prediksi: **{class_index}** ({conf*100:.2f}%)")
     else:
-        st.warning("⚠️ Model tidak ditemukan. Pastikan file model sudah diunggah ke folder Model/.")
+        st.warning("⚠️ Model tidak ditemukan di folder Model/.")
 else:
     st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
@@ -170,8 +166,7 @@ else:
 # Footer
 # ==========================
 st.markdown("""
-<hr style="border:1px solid rgba(0,120,255,0.2);margin-top:50px;">
-<div style="text-align:center;color:#005b96;font-size:14px;">
-© 2025 — Neura HoloLab 3D | Universitas Syiah Kuala 🌤️
-</div>
+<footer>
+© 2025 — USK HoloVision Dashboard | Universitas Syiah Kuala 💫
+</footer>
 """, unsafe_allow_html=True)
