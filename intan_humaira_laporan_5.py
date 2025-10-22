@@ -125,8 +125,8 @@ st.markdown("""
         <li>freshoranges</li>
         <li>rottenoranges</li>
     Dataset terbagi menjadi dua bagian utama:
-    <b>Train</b>: 10.901 gambar  
-    <b>Test</b>: 2.698 gambar
+    Train: 10.901 gambar  
+    Test: 2.698 gambar
     <br><br>
     Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar 
     agar dapat mengenali kondisi buah berdasarkan penampilan visualnya. 
