@@ -15,20 +15,61 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="USK HoloVision Dashboard", page_icon="🌈", layout="wide")
 
-# ==========================
-# CSS Unik & Cerah
-# ==========================
 st.markdown("""
 <style>
+/* =====================
+🌈 BACKGROUND DASHBOARD
+===================== */
 .stApp {
-    background: radial-gradient(circle at top left, #e0f7ff, #f8fbff, #ffffff);
-    animation: gradientMove 10s ease infinite alternate;
-}
-@keyframes gradientMove {
-    0% {background-position: 0% 50%;}
-    100% {background-position: 100% 50%;}
+    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Efek gradasi dinamis */
+@keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+.stApp {
+    animation: gradientShift 12s ease infinite;
+    background-size: 200% 200%;
+}
+
+/* =====================
+🌐 DEKORASI GAMBAR PLOT HALUS
+===================== */
+.stApp::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: -120px;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/6062/6062646.png') no-repeat;
+    background-size: 320px;
+    opacity: 0.08;
+    transform: rotate(25deg);
+}
+
+.stApp::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    right: -120px;
+    width: 900px;
+    height: 900px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
+    background-size: 340px;
+    opacity: 0.09;
+    transform: rotate(-15deg);
+}
+
+/* =====================
+✨ HEADER STYLE
+===================== */
 .header {
     display:flex;
     align-items:center;
@@ -47,12 +88,14 @@ st.markdown("""
     filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
     animation: float 4s ease-in-out infinite;
 }
-
 @keyframes float {
     0%,100% {transform: translateY(0px);}
     50% {transform: translateY(-6px);}
 }
 
+/* =====================
+🎨 TEKS & KOMPONEN
+===================== */
 .title-text {
     font-size: 34px;
     font-weight: 800;
@@ -125,9 +168,9 @@ st.markdown("""
         <li>freshoranges</li>
         <li>rottenoranges</li>
     Dataset terbagi menjadi dua bagian utama:
-    Train: 10.901 gambar  
+    Train: 10.901 gambar dan
     Test: 2.698 gambar
-    <br><br>
+    <br>
     Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar 
     agar dapat mengenali kondisi buah berdasarkan penampilan visualnya. 
     Dataset ini banyak digunakan dalam penelitian bidang Computer Vision dan Deep Learning 
