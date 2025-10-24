@@ -11,18 +11,24 @@ import os
 import plotly.graph_objects as go
 
 # ==========================
-# Konfigurasi Dasar
+# KONFIGURASI DASAR
 # ==========================
 st.set_page_config(page_title="USK HoloVision Dashboard", page_icon="🌈", layout="wide")
 
+# ==========================
+# CSS STYLING DASHBOARD 🌈
+# ==========================
 st.markdown("""
 <style>
 /* =====================
-🌈 BACKGROUND DASHBOARD
+🌈 BACKGROUND DASHBOARD FIX
 ===================== */
-.stApp {
+[data-testid="stAppViewContainer"] {
     background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
     background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
@@ -33,15 +39,9 @@ st.markdown("""
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
-.stApp {
-    animation: gradientShift 12s ease infinite;
-    background-size: 200% 200%;
-}
 
-/* =====================
-🌐 DEKORASI GAMBAR PLOT HALUS
-===================== */
-.stApp::before {
+/* Dekorasi halus */
+[data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
     top: -80px;
@@ -54,7 +54,7 @@ st.markdown("""
     transform: rotate(25deg);
 }
 
-.stApp::after {
+[data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
     bottom: -100px;
@@ -123,9 +123,9 @@ footer {
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------
-# HEADER (FIXED — NO DOUBLE LOGO)
-# -------------------------
+# ==========================
+# HEADER
+# ==========================
 logo_candidates = [
     ".devcontainer/usk_logo.png",
     ".devcontainer/logo_usk.png",
@@ -143,14 +143,13 @@ with col1:
 
 with col2:
     st.markdown("""
-    <div class="header-container">
-        <div>
-            <div class="title-text">Neura HoloLab 3D
+    <div class="header">
+        <div class="title-text">Neura HoloLab 3D</div>
     </div>
     """, unsafe_allow_html=True)
 
 # ==========================
-# Deskripsi Dataset 📚
+# DESKRIPSI DATASET 📚
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -178,8 +177,9 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
 # ==========================
-# Load model
+# LOAD MODEL
 # ==========================
 @st.cache_resource
 def load_models():
@@ -193,14 +193,14 @@ def load_models():
 yolo_model, classifier = load_models()
 
 # ==========================
-# Sidebar Upload & Mode
+# SIDEBAR
 # ==========================
 st.sidebar.title("🎛️ Mode Analisis")
 mode = st.sidebar.selectbox("Pilih Fungsi:", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
 uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "png"])
 
 # ==========================
-# Konten Utama
+# KONTEN UTAMA
 # ==========================
 st.markdown("### 🌤️ Analisis Visual Holografik")
 
@@ -213,7 +213,6 @@ if uploaded_file:
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-        # Hitung jumlah objek
         obj_counts = {}
         for cls in results[0].boxes.cls:
             label = results[0].names[int(cls)]
@@ -248,7 +247,7 @@ else:
     st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
 # ==========================
-# Footer
+# FOOTER
 # ==========================
 st.markdown("""
 <footer>
