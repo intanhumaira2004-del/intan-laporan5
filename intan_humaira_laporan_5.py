@@ -1,100 +1,112 @@
+# -*- coding: utf-8 -*-
+"""HoloVision Dashboard"""
+
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from PIL import Image, ImageOps
+from PIL import Image
 import numpy as np
-import requests, io, os
+import os
 import plotly.graph_objects as go
-from streamlit_lottie import st_lottie
 
-# -------------------------
-# PAGE CONFIG
-# -------------------------
-st.set_page_config(page_title="Neura HoloLab 3D — USK Statistics", page_icon="🛸", layout="wide")
+# ==========================
+# KONFIGURASI DASAR
+# ==========================
+st.set_page_config(page_title=" HoloFruits Vision Dashboard", layout="wide")
 
-# -------------------------
-# HELPER FUNCTIONS
-# -------------------------
-def load_lottie_url(url: str):
-    try:
-        r = requests.get(url)
-        if r.status_code == 200:
-            return r.json()
-    except:
-        return None
-    return None
-
-def image_to_base64_str(img: Image.Image):
-    buf = io.BytesIO()
-    img.save(buf, format="PNG")
-    return buf.getvalue()
-
-# -------------------------
-# LOAD MODELS
-# -------------------------
-@st.cache_resource
-def load_models():
-    yolo_path = "Model/Intan Humaira_Laporan 4.pt"
-    keras_path = "Model/Intan Humaira_Laporan2.h5"
-
-    yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
-    classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
-    return yolo_model, classifier
-
-yolo_model, classifier = load_models()
-
-# -------------------------
-# STYLING (CSS)
-# -------------------------
+# ==========================
+# CSS STYLING DASHBOARD 🌈
+# ==========================
 st.markdown("""
 <style>
-.stApp {
-    background: radial-gradient(circle at 10% 10%, #081229 0%, #010312 100%);
-    color: #dff4ff;
-    font-family: 'Poppins', sans-serif;
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
-.header-container {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    background: linear-gradient(90deg, rgba(20,40,90,0.3), rgba(5,10,30,0.2));
-    padding: 12px 18px;
-    border-radius: 16px;
-    border: 1px solid rgba(120,180,255,0.1);
-    box-shadow: 0 4px 25px rgba(20,100,255,0.2);
+@keyframes gradientShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+[data-testid="stAppViewContainer"]::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: -120px;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/6062/6062646.png') no-repeat;
+    background-size: 320px;
+    opacity: 0.08;
+    transform: rotate(25deg);
+}
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    right: -120px;
+    width: 900px;
+    height: 900px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
+    background-size: 340px;
+    opacity: 0.09;
+    transform: rotate(-15deg);
+}
+.header {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(255,255,255,0.7);
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
+    backdrop-filter: blur(12px);
     margin-bottom: 25px;
 }
-.usk-logo {
-    width: 90px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(80,160,255,0.25);
+.header img {
+    width: 100px;
+    margin-right: 20px;
+    filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% {transform: translateY(0px);}
+    50% {transform: translateY(-6px);}
 }
 .title-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: #9fd7ff;
+    font-size: 34px;
+    font-weight: 800;
+    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(0,180,255,0.4);
 }
-.subtitle {
-    color: #a6c9ff;
-    font-size: 15px;
+.glass-card {
+    background: rgba(255,255,255,0.75);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(180,220,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
+    backdrop-filter: blur(12px);
 }
-.floating-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border-radius: 14px;
-    padding: 16px;
-    border: 1px solid rgba(120,180,255,0.1);
-    box-shadow: 0 4px 20px rgba(20,80,180,0.4);
-    backdrop-filter: blur(6px);
-    margin-bottom: 20px;
+footer {
+    text-align:center;
+    color:#0080b9;
+    margin-top:40px;
+    font-size:14px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# -------------------------
-# HEADER (FIXED — NO DOUBLE LOGO)
-# -------------------------
+# ==========================
+# HEADER
+# ==========================
 logo_candidates = [
     ".devcontainer/usk_logo.png",
     ".devcontainer/logo_usk.png",
@@ -112,92 +124,105 @@ with col1:
 
 with col2:
     st.markdown("""
-    <div class="header-container">
-        <div>
-            <div class="title-text">Neura HoloLab 3D — USK Statistics</div>
-            <div class="subtitle">Faculty of Mathematics and Natural Sciences</div>
-        </div>
+    <div class="header">
+        <div class="title-text">Neura HoloLab 3D</div>
     </div>
     """, unsafe_allow_html=True)
 
-# -------------------------
+# ==========================
+# DESKRIPSI DATASET 📚
+# ==========================
+st.markdown("""
+<div class="glass-card">
+    <h3>🧺 Deskripsi Dataset: <em>Fruits Fresh and Rotten for Classification</em></h3>
+    <p style='text-align: justify;'>
+    Dataset ini berasal dari platform 
+    <a href='https://www.kaggle.com/datasets/sriramr/fruits-fresh-and-rotten-for-classification' target='_blank'>Kaggle</a>. 
+    Dataset ini berisi kumpulan gambar buah-buahan dalam dua kondisi, yaitu fresh (segar) dan rotten (busuk), 
+    mencakup tiga jenis buah: apel, pisang, dan jeruk. 
+    Setiap kombinasi menghasilkan enam kelas gambar sebagai berikut:
+        <li>freshapples</li>
+        <li>rottenapples</li>
+        <li>freshbanana</li>
+        <li>rottenbanana</li>
+        <li>freshoranges</li>
+        <li>rottenoranges</li>
+    Dataset terbagi menjadi dua bagian utama:
+    Train: 10.901 gambar dan
+    Test: 2.698 gambar
+    <br>
+    Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar 
+    agar dapat mengenali kondisi buah berdasarkan penampilan visualnya. 
+    Dataset ini banyak digunakan dalam penelitian bidang Computer Vision dan Deep Learning 
+    menggunakan arsitektur Convolutional Neural Network (CNN).
+    </p>
+</div>
+""", unsafe_allow_html=True)
+
+# ==========================
+# LOAD MODEL
+# ==========================
+@st.cache_resource
+def load_models():
+    yolo_path = "Model/Intan Humaira_Laporan 4.pt"
+    keras_path = "Model/Intan Humaira_Laporan2.h5"
+
+    yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
+    classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
+    return yolo_model, classifier
+
+yolo_model, classifier = load_models()
+
+# ==========================
 # SIDEBAR
-# -------------------------
-with st.sidebar:
-    st.markdown("### 🧠 Mode Analisis")
-    mode = st.radio("", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
-    uploaded_file = st.file_uploader("📤 Unggah Gambar", type=["jpg", "jpeg", "png"])
-    show_chart = st.checkbox("Tampilkan Grafik", value=True)
-    show_lottie = st.checkbox("Tampilkan Animasi", value=True)
+# ==========================
+st.sidebar.title("🎛️ Mode Analisis")
+mode = st.sidebar.selectbox("Pilih Fungsi:", ["Deteksi Objek (YOLO)", "Klasifikasi Gambar"])
+uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "png"])
 
-# -------------------------
-# LOTTIE (optional)
-# -------------------------
-if show_lottie:
-    holo_anim = load_lottie_url("https://assets2.lottiefiles.com/packages/lf20_4kx2q32n.json")
-    if holo_anim:
-        st_lottie(holo_anim, height=180, key="anim")
+# ==========================
+# KONTEN UTAMA
+# ==========================
+st.markdown("### 🌤️ Analisis Visual Holografik")
 
-# -------------------------
-# MAIN CONTENT
-# -------------------------
-if uploaded_file is not None:
+if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
+    st.image(img, caption="📸 Gambar yang Diupload", use_container_width=True)
 
-    if mode == "Deteksi Objek (YOLO)":
-        with st.spinner("🔍 Sedang mendeteksi objek..."):
-            results = yolo_model(img)
+    # ==========================
+    # MODE DETEKSI YOLO
+    # ==========================
+    if mode == "Deteksi Objek (YOLO)" and yolo_model:
+        results = yolo_model(img)
         plotted = results[0].plot()
-        if isinstance(plotted, np.ndarray):
-            plotted = Image.fromarray(plotted)
-        st.image(plotted, caption="Hasil Deteksi Objek", use_container_width=True)
+        st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-        # Hitung objek
-        obj_counts = {}
-        for cls in results[0].boxes.cls:
-            label = results[0].names[int(cls)]
-            obj_counts[label] = obj_counts.get(label, 0) + 1
-
-        if show_chart:
-            fig = go.Figure(go.Bar(
-                x=list(obj_counts.keys()),
-                y=list(obj_counts.values()),
-                marker_color="#3da9fc",
-                text=list(obj_counts.values()),
-                textposition="outside"
-            ))
-            fig.update_layout(
-                title="📊 Jumlah Objek Terdeteksi",
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="#dff4ff"),
-                yaxis=dict(gridcolor="rgba(100,150,255,0.1)")
-            )
-            st.plotly_chart(fig, use_container_width=True)
+    # ==========================
+    # MODE KLASIFIKASI GAMBAR
+    # ==========================
+    elif mode == "Klasifikasi Gambar" and classifier:
+        st.write("Ukuran input model:", classifier.input_shape)
+        input_shape = classifier.input_shape[1:3]
+        img_resized = img.resize(input_shape)
+        img_array = image.img_to_array(img_resized)
+        if img_array.shape[-1] == 4:
+            img_array = img_array[..., :3]
+        img_array = np.expand_dims(img_array, axis=0) / 255.0
+        prediction = classifier.predict(img_array)
+        class_index = np.argmax(prediction)
+        conf = np.max(prediction)
+        st.success(f"✅ Prediksi: **{class_index}** ({conf*100:.2f}%)")
 
     else:
-        if classifier is None:
-            st.error("Model klasifikasi tidak ditemukan.")
-        else:
-            arr = np.expand_dims(image.img_to_array(img.resize((224, 224))) / 255.0, axis=0)
-            pred = classifier.predict(arr)
-            labels = ["freshapples","freshbanana","freshoranges","rottenapples","rottenbanana","rottenoranges"]
-            fig = go.Figure(go.Bar(
-                x=labels, y=pred[0],
-                marker_color="#9fd7ff",
-                text=[f"{p*100:.1f}%" for p in pred[0]],
-                textposition="outside"
-            ))
-            fig.update_layout(
-                title="📈 Probabilitas Kelas Gambar",
-                plot_bgcolor="rgba(0,0,0,0)",
-                paper_bgcolor="rgba(0,0,0,0)",
-                font=dict(color="#dff4ff")
-            )
-            st.plotly_chart(fig, use_container_width=True)
+        st.warning("⚠️ Model tidak ditemukan di folder Model/.")
+else:
+    st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
-# -------------------------
+# ==========================
 # FOOTER
-# -------------------------
-st.markdown("<hr>", unsafe_allow_html=True)
-st.markdown("<div style='text-align:center;color:#9fd7ff;font-size:13px;'>© Universitas Syiah Kuala — Neura HoloLab 3D | Crafted by Intan Humaira</div>", unsafe_allow_html=True)
+# ==========================
+st.markdown("""
+<footer>
+© 2025 — HoloFruits Vision Dashboard | Intan Humaira 💫
+</footer>
+""", unsafe_allow_html=True)
