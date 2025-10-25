@@ -16,20 +16,18 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (MAROON THEME)
+# CSS STYLING (SOFT ROSE BEIGE THEME)
 # ==========================
 st.markdown("""
 <style>
 /* ======== BACKGROUND ======== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #3b0000 0%, #5c1a1a 35%, #7a2b2b 70%, #a84242 100%);
+    background: linear-gradient(135deg, #f9e6e6 0%, #f2d5d5 40%, #e6c2c2 80%, #d9b1b1 100%);
     background-attachment: fixed;
     background-size: 300% 300%;
     animation: gradientShift 15s ease infinite;
     min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    color: #fff;
+    color: #2b1d1d;
 }
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
@@ -41,22 +39,22 @@ st.markdown("""
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -100px;
-    left: -150px;
-    width: 700px;
-    height: 700px;
-    background: radial-gradient(circle, rgba(255,200,200,0.15) 0%, transparent 70%);
-    filter: blur(40px);
+    top: -120px;
+    left: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,200,200,0.3) 0%, transparent 70%);
+    filter: blur(60px);
 }
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
     bottom: -150px;
-    right: -120px;
-    width: 900px;
-    height: 900px;
-    background: radial-gradient(circle, rgba(255,170,170,0.15) 0%, transparent 70%);
-    filter: blur(40px);
+    right: -150px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255,180,180,0.3) 0%, transparent 70%);
+    filter: blur(60px);
 }
 
 /* ======== HEADER ======== */
@@ -64,60 +62,73 @@ st.markdown("""
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.45);
     padding: 20px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(255, 150, 150, 0.3);
+    box-shadow: 0 4px 20px rgba(160, 100, 100, 0.25);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
-    border: 1px solid rgba(255,180,180,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
 }
 .title-text {
     font-size: 36px;
     font-weight: 800;
-    background: linear-gradient(90deg,#ffcccc,#ffe6e6,#ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(255,200,200,0.4);
+    color: #4a1f1f;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
 }
 
 /* ======== LOGO ======== */
 .header img {
-    width: 100px;
+    width: 90px;
     margin-right: 20px;
-    filter: drop-shadow(0 0 15px rgba(255, 200, 200, 0.4));
+    filter: drop-shadow(0 0 8px rgba(150, 80, 80, 0.4));
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
     0%,100% {transform: translateY(0px);}
-    50% {transform: translateY(-6px);}
+    50% {transform: translateY(-5px);}
 }
 
 /* ======== KOTAK GLASS EFFECT ======== */
 .glass-card {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.55);
     border-radius: 16px;
-    padding: 20px;
-    border: 1px solid rgba(255,200,200,0.3);
-    box-shadow: 0 6px 20px rgba(100,0,0,0.3);
-    backdrop-filter: blur(15px);
-    color: #fbeaea;
+    padding: 22px;
+    border: 1px solid rgba(255,200,200,0.4);
+    box-shadow: 0 6px 20px rgba(100,0,0,0.15);
+    backdrop-filter: blur(12px);
+    color: #3b2b2b;
 }
 
 /* ======== SIDEBAR ======== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #2b0000, #4a0e0e, #6a1a1a);
-    color: white;
+    background: linear-gradient(180deg, #e3bebe 0%, #d6a5a5 60%, #c28f8f 100%);
+    color: #2b1d1d;
 }
 section[data-testid="stSidebar"] h1, 
-section[data-testid="stSidebar"] label {
-    color: #ffe6e6 !important;
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] span {
+    color: #2b1d1d !important;
+}
+
+/* ======== FILE UPLOADER ======== */
+section[data-testid="stFileUploader"] div[role="button"] {
+    background-color: rgba(255,255,255,0.8);
+    color: #3b1f1f !important;
+    border: 1px solid rgba(120,80,80,0.3);
+    border-radius: 10px;
+    padding: 8px;
+    transition: all 0.3s ease;
+}
+section[data-testid="stFileUploader"] div[role="button"]:hover {
+    background-color: rgba(255,255,255,0.95);
+    box-shadow: 0 0 10px rgba(180,120,120,0.3);
 }
 
 /* ======== FOOTER ======== */
 footer {
     text-align:center;
-    color:#ffcccc;
+    color:#5c2a2a;
     margin-top:40px;
     font-size:14px;
 }
@@ -140,7 +151,7 @@ with col1:
     if logo_path:
         st.image(logo_path, use_container_width=True)
     else:
-        st.markdown("<div style='width:90px;height:90px;background:#600000;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#ffcccc;font-weight:700;'>USK</div>", unsafe_allow_html=True)
+        st.markdown("<div style='width:90px;height:90px;background:#a87b7b;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
@@ -150,7 +161,7 @@ with col2:
     """, unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET 
+# DESKRIPSI DATASET 📚
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -203,25 +214,20 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 🌤️ Analisis Visual MaroonVision")
+st.markdown("### 🌤️ Analisis Visual - Soft Rose Beige Theme")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
     st.image(img, caption="📸 Gambar yang Diupload", use_container_width=True)
 
-    # ==========================
     # MODE DETEKSI YOLO
-    # ==========================
     if mode == "Deteksi Objek (YOLO)" and yolo_model:
         results = yolo_model(img)
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-    # ==========================
     # MODE KLASIFIKASI GAMBAR
-    # ==========================
     elif mode == "Klasifikasi Gambar" and classifier:
-        st.write("Ukuran input model:", classifier.input_shape)
         input_shape = classifier.input_shape[1:3]
         img_resized = img.resize(input_shape)
         img_array = image.img_to_array(img_resized)
@@ -242,6 +248,6 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — HoloFruits Vision Dashboard | Intan Humaira 💫
+© 2025 — HoloFruits Vision Dashboard | By Intan Humaira 💫
 </footer>
 """, unsafe_allow_html=True)
