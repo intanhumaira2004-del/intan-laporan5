@@ -14,63 +14,61 @@ import os
 st.set_page_config(page_title="HoloFruit Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (Latar Statistik + Holografik)
+# CSS STYLING (Tema Statistik + Holografik)
 # ==========================
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e6f2ff 0%, #f8fbff 40%, #ffffff 100%);
+    background: linear-gradient(135deg, #e3f2fd 0%, #f8fbff 40%, #ffffff 100%);
     background-attachment: fixed;
     background-size: 200% 200%;
-    animation: gradientShift 14s ease infinite;
+    animation: gradientShift 12s ease infinite;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
 
-/* Animasi gradasi */
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
-/* Dekorasi statistik kiri atas (scatter transparan) */
+/* Dekorasi statistik lembut di sudut */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -100px;
-    left: -100px;
-    width: 800px;
-    height: 800px;
-    background: url('https://cdn-icons-png.flaticon.com/512/4406/4406251.png') no-repeat;
-    background-size: 320px;
+    top: -40px;
+    left: -60px;
+    width: 550px;
+    height: 550px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149678.png') no-repeat;
+    background-size: 280px;
     opacity: 0.07;
-    transform: rotate(15deg);
+    transform: rotate(18deg);
 }
 
-/* Dekorasi kanan bawah (chart grid transparan) */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
-    bottom: -100px;
-    right: -120px;
-    width: 800px;
-    height: 800px;
-    background: url('https://cdn-icons-png.flaticon.com/512/9473/9473173.png') no-repeat;
-    background-size: 340px;
+    bottom: -80px;
+    right: -100px;
+    width: 650px;
+    height: 650px;
+    background: url('https://cdn-icons-png.flaticon.com/512/1828/1828884.png') no-repeat;
+    background-size: 320px;
     opacity: 0.08;
     transform: rotate(-10deg);
 }
 
-/* Visual tambahan di tengah bawah (garis tren halus) */
+/* Tambahan visual chart semi transparan di bawah */
 .fake-visual {
     position: absolute;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0.06;
-    width: 400px;
+    width: 450px;
     height: auto;
     z-index: 0;
 }
@@ -80,36 +78,36 @@ st.markdown("""
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.7);
     padding: 18px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,120,255,0.25);
+    box-shadow: 0 4px 25px rgba(0,100,200,0.2);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
 }
-.header img { width: 100px; margin-right: 20px; filter: drop-shadow(0 0 15px rgba(0,200,255,0.5)); animation: float 4s ease-in-out infinite; }
+.header img { width: 100px; margin-right: 20px; filter: drop-shadow(0 0 15px rgba(0,150,255,0.5)); animation: float 4s ease-in-out infinite; }
 @keyframes float { 0%,100% {transform: translateY(0px);} 50% {transform: translateY(-6px);} }
 
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#0066ff,#00aaff,#00e1ff);
+    background: linear-gradient(90deg,#007bff,#00d4ff,#0056b3);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0,180,255,0.4);
+    text-shadow: 0 0 25px rgba(0,140,255,0.3);
 }
 
 .glass-card {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.78);
     border-radius: 16px;
     padding: 20px;
-    border: 1px solid rgba(160,210,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.12);
+    border: 1px solid rgba(160,200,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
     backdrop-filter: blur(12px);
 }
 footer {
     text-align:center;
-    color:#0078b9;
+    color:#006bb3;
     margin-top:40px;
     font-size:14px;
 }
@@ -121,7 +119,6 @@ footer {
 # ==========================
 logo_candidates = [
     ".devcontainer/usk_logo.png",
-    ".devcontainer/logo_usk.png",
     "assets/usk_logo.png",
     "usk_logo.png"
 ]
@@ -136,7 +133,7 @@ with col1:
 with col2:
     st.markdown("""
     <div class="header">
-        <div class="title-text">HoloFruit Vision Dashboard </div>
+        <div class="title-text">HoloFruit Vision Dashboard 🍎<br><span style='font-size:18px;font-weight:500;color:#007bff;'>A Statistical Approach to AI-Based Fruit Classification</span></div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -145,20 +142,19 @@ with col2:
 # ==========================
 st.markdown("""
 <div class="glass-card">
-<h3>🧺 Deskripsi Dataset: <em>Fruits Fresh and Rotten for Classification</em></h3>
+<h3>📊 Deskripsi Dataset: <em>Fruits Fresh and Rotten for Classification</em></h3>
 <p style='text-align: justify;'>
 Dataset ini berasal dari platform <a href='https://www.kaggle.com/datasets/sriramr/fruits-fresh-and-rotten-for-classification' target='_blank'>Kaggle</a>.
-Dataset ini berisi kumpulan gambar buah-buahan dalam dua kondisi, yaitu fresh (segar) dan rotten (busuk),
-mencakup tiga jenis buah: apel, pisang, dan jeruk. Setiap kombinasi menghasilkan enam kelas gambar sebagai berikut:
+Dataset ini berisi gambar buah-buahan dalam dua kondisi: fresh (segar) dan rotten (busuk),
+mencakup tiga jenis buah — apel, pisang, dan jeruk. Total terdapat enam kelas gambar:
 <li>freshapples</li>
 <li>rottenapples</li>
 <li>freshbanana</li>
 <li>rottenbanana</li>
 <li>freshoranges</li>
 <li>rottenoranges</li>
-Dataset terbagi menjadi dua bagian utama: Train: 10.901 gambar dan Test: 2.698 gambar.
-<br>Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar agar dapat mengenali kondisi buah berdasarkan penampilan visualnya.
-Dataset ini banyak digunakan dalam penelitian bidang Computer Vision, Deep Learning, dan analisis statistik berbasis citra.
+Dataset ini digunakan untuk melatih model CNN agar mampu mengenali kondisi buah secara otomatis.
+Dataset ini juga relevan untuk penelitian di bidang <b>Statistika Terapan, Computer Vision</b>, dan <b>Machine Learning</b>.
 </p>
 </div>
 """, unsafe_allow_html=True)
@@ -186,7 +182,7 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 📊 Analisis Visual Statistik & AI")
+st.markdown("### 🔍 Analisis Visual Statistik & AI")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
@@ -215,10 +211,10 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — HoloFruit Vision Dashboard | by Intan Humaira 🎓
+© 2025 — HoloFruit Vision Dashboard | Created by Intan Humaira (Statistics)
 </footer>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<img class="fake-visual" src="https://cdn-icons-png.flaticon.com/512/3408/3408559.png">
+<img class="fake-visual" src="https://cdn-icons-png.flaticon.com/512/3271/3271042.png">
 """, unsafe_allow_html=True)
