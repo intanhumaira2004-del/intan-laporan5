@@ -8,72 +8,31 @@ from PIL import Image
 import numpy as np
 import os
 
-# =========================
+# ==========================
 # KONFIGURASI DASAR
 # ==========================
 st.set_page_config(page_title="HoloFruit Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (Tema Statistik + Holografik)
+# CSS STYLING (Tema Statistik + Gradasi Elegan)
 # ==========================
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e3f2fd 0%, #f8fbff 40%, #ffffff 100%);
+    background: linear-gradient(
+        135deg, 
+        rgba(240,248,255,0.93) 0%, 
+        rgba(255,255,255,0.96) 40%, 
+        rgba(245,250,255,1) 100%
+    ),
+    url("https://cdn.pixabay.com/photo/2020/09/29/16/51/data-5615376_1280.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     background-attachment: fixed;
-    background-size: 200% 200%;
-    animation: gradientShift 12s ease infinite;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
 }
 
-@keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-/* Dekorasi statistik lembut di sudut */
-[data-testid="stAppViewContainer"]::before {
-    content: "";
-    position: absolute;
-    top: -40px;
-    left: -60px;
-    width: 550px;
-    height: 550px;
-    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149678.png') no-repeat;
-    background-size: 280px;
-    opacity: 0.07;
-    transform: rotate(18deg);
-}
-
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    bottom: -80px;
-    right: -100px;
-    width: 650px;
-    height: 650px;
-    background: url('https://cdn-icons-png.flaticon.com/512/1828/1828884.png') no-repeat;
-    background-size: 320px;
-    opacity: 0.08;
-    transform: rotate(-10deg);
-}
-
-/* Tambahan visual chart semi transparan di bawah */
-.fake-visual {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0.06;
-    width: 450px;
-    height: auto;
-    z-index: 0;
-}
-
-/* HEADER & KARTU */
+/* Efek lembut di konten */
 .header {
     display:flex;
     align-items:center;
@@ -81,8 +40,8 @@ st.markdown("""
     background: rgba(255,255,255,0.7);
     padding: 18px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,100,200,0.2);
-    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 25px rgba(0,100,200,0.15);
+    backdrop-filter: blur(10px);
     margin-bottom: 25px;
 }
 .header img { width: 100px; margin-right: 20px; filter: drop-shadow(0 0 15px rgba(0,150,255,0.5)); animation: float 4s ease-in-out infinite; }
@@ -91,23 +50,23 @@ st.markdown("""
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#007bff,#00d4ff,#0056b3);
+    background: linear-gradient(90deg,#007bff,#00d4ff,#004aad);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0,140,255,0.3);
+    text-shadow: 0 0 20px rgba(0,160,255,0.3);
 }
 
 .glass-card {
-    background: rgba(255,255,255,0.78);
+    background: rgba(255,255,255,0.8);
     border-radius: 16px;
     padding: 20px;
-    border: 1px solid rgba(160,200,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(160,200,255,0.35);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.12);
+    backdrop-filter: blur(10px);
 }
 footer {
     text-align:center;
-    color:#006bb3;
+    color:#004aad;
     margin-top:40px;
     font-size:14px;
 }
@@ -133,12 +92,13 @@ with col1:
 with col2:
     st.markdown("""
     <div class="header">
-        <div class="title-text">HoloFruit Vision Dashboard 🍎<br><span style='font-size:18px;font-weight:500;color:#007bff;'>A Statistical Approach to AI-Based Fruit Classification</span></div>
+        <div class="title-text">HoloFruit Vision Dashboard 🍎<br>
+        <span style='font-size:18px;font-weight:500;color:#007bff;'>A Statistical Approach to AI-Based Fruit Classification</span></div>
     </div>
     """, unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET
+# DESKRIPSI DATASET (tidak diubah)
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -211,10 +171,6 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — HoloFruit Vision Dashboard | Created by Intan Humaira (Statistics)
+© 2025 — HoloFruit Vision Dashboard | Created by Intan Humaira 
 </footer>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<img class="fake-visual" src="https://cdn-icons-png.flaticon.com/512/3271/3271042.png">
 """, unsafe_allow_html=True)
