@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 import os
 
-# ==========================
+# =========================
 # KONFIGURASI DASAR
 # ==========================
 st.set_page_config(page_title="HoloFruit Vision Dashboard", layout="wide")
