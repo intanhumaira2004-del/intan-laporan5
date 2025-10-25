@@ -18,117 +18,92 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
 # CSS STYLING (SOFT ROSE GLOW THEME)
 # ==========================
-# 🌸 Background + Desain Visual Statistik Unik & Elegan
 st.markdown("""
 <style>
-/* ====== BACKGROUND DASHBOARD ====== */
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #f8e7e7 0%, #f0d6d6 40%, #e8c4c4 75%, #dba9a9 100%);
-    background-attachment: fixed;
+/* 🌸 Background Utama — Maroon Aurora + Geometric + Grid */
+.stApp {
+    background: linear-gradient(135deg, #f8dede, #f3cfcf, #e0b1b1, #b87b7b);
+    background-size: 400% 400%;
+    animation: gradientMove 25s ease infinite;
     position: relative;
     overflow: hidden;
 }
 
-/* Efek cahaya lembut */
-[data-testid="stAppViewContainer"]::before {
-    content: "";
-    position: absolute;
-    top: -200px;
-    left: -200px;
-    width: 900px;
-    height: 900px;
-    background: radial-gradient(circle, rgba(255,255,255,0.45), transparent 70%);
-    filter: blur(160px);
-    z-index: 0;
+/* Efek aurora lembut yang bergerak */
+@keyframes gradientMove {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 
-/* Pola statistik halus */
-[data-testid="stAppViewContainer"]::after {
+/* Tambahan layer pola */
+.stApp::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image:
-        radial-gradient(circle at 25% 35%, rgba(255,255,255,0.06) 0%, transparent 40%),
-        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 50%),
-        repeating-linear-gradient(
-            135deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 2px,
-            transparent 6px
-        ),
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 1px, transparent 1px),
+        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
+        url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
         url('https://www.transparenttextures.com/patterns/dot-grid.png');
-    background-size: 350px 350px, 350px 350px, 400px 400px, 250px 250px;
-    opacity: 0.9;
+    background-size: 300px 300px, 400px 400px, auto, auto;
+    opacity: 0.15;
     z-index: 0;
 }
 
-/* ====== WAVE EFEK ====== */
-.wave-top, .wave-bottom {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    height: 180px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.3;
-    z-index: 0;
-}
-.wave-top {
-    top: 0;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23e4b4b4" fill-opacity="1" d="M0,192L80,170.7C160,149,320,107,480,96C640,85,800,107,960,144C1120,181,1280,235,1360,261.3L1440,288L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
-}
-.wave-bottom {
-    bottom: 0;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23e4b4b4" fill-opacity="1" d="M0,160L80,138.7C160,117,320,75,480,90.7C640,107,800,181,960,213.3C1120,245,1280,235,1360,229.3L1440,224L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>');
-}
-
-/* ====== WATERMARK STATISTIK ====== */
-.stat-shape {
-    position: fixed;
+/* Tambahan desain geometrik lembut */
+.stApp::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('https://i.imgur.com/4aTjB6Y.png') center/cover no-repeat;
     opacity: 0.07;
     z-index: 0;
-    transform: rotate(-10deg);
-}
-.stat-shape.chart-left {
-    top: 5%;
-    left: 2%;
-    width: 260px;
-    height: 260px;
-    background: url('https://cdn-icons-png.flaticon.com/512/2830/2830310.png') no-repeat center;
-    background-size: contain;
-}
-.stat-shape.chart-right {
-    bottom: 5%;
-    right: 2%;
-    width: 280px;
-    height: 280px;
-    background: url('https://cdn-icons-png.flaticon.com/512/3225/3225193.png') no-repeat center;
-    background-size: contain;
 }
 
-/* ====== CARD (GLASSMORPHISM) ====== */
-div[data-testid="stMarkdownContainer"] .glass-card {
-    background: rgba(255, 255, 255, 0.75);
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    backdrop-filter: blur(12px);
-}
-
-/* ====== PASTIKAN KONTEN DI DEPAN ====== */
-header, footer, .stApp, .block-container {
+/* Kontainer utama transparan */
+.main {
     position: relative;
     z-index: 1;
 }
+
+/* Kartu kaca */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    margin-bottom: 25px;
+}
+
+/* Judul besar */
+h1 {
+    text-align: center;
+    font-size: 2.3em;
+    color: #541818;
+    font-weight: 800;
+    background: rgba(255,255,255,0.65);
+    padding: 15px;
+    border-radius: 15px;
+    display: inline-block;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+/* Judul bagian */
+h3 {
+    color: #4b1c1c;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #5e3a3a;
+}
 </style>
-
-<div class="wave-top"></div>
-<div class="wave-bottom"></div>
-<div class="stat-shape chart-left"></div>
-<div class="stat-shape chart-right"></div>
 """, unsafe_allow_html=True)
-
 # ==========================
 # HEADER
 # ==========================
