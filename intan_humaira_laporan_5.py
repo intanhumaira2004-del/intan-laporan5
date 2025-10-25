@@ -18,120 +18,115 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
 # CSS STYLING (SOFT ROSE GLOW THEME)
 # ==========================
+# 🌸 Background + Desain Visual Statistik Unik & Elegan
 st.markdown("""
 <style>
-/* ======== BACKGROUND ======== */
+/* ====== BACKGROUND DASHBOARD ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #f9e6e6 0%, #f4dada 35%, #f1cccc 70%, #e7bfbf 100%);
+    background: linear-gradient(135deg, #f8e7e7 0%, #f0d6d6 40%, #e8c4c4 75%, #dba9a9 100%);
     background-attachment: fixed;
-    background-size: 300% 300%;
-    animation: gradientShift 18s ease infinite;
-    min-height: 100vh;
-    color: #2b1d1d;
     position: relative;
-}
-@keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    overflow: hidden;
 }
 
-/* ======== SOFT LIGHT IN CENTER ======== */
+/* Efek cahaya lembut */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
-    background: radial-gradient(circle, rgba(255,230,230,0.55) 0%, rgba(255,210,210,0.25) 40%, transparent 80%);
-    filter: blur(100px);
+    top: -200px;
+    left: -200px;
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(255,255,255,0.45), transparent 70%);
+    filter: blur(160px);
     z-index: 0;
 }
 
-/* ======== HEADER ======== */
-.header {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background: rgba(255,255,255,0.5);
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(160, 100, 100, 0.25);
+/* Pola statistik halus */
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 25% 35%, rgba(255,255,255,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.05) 0%, transparent 50%),
+        repeating-linear-gradient(
+            135deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 2px,
+            transparent 6px
+        ),
+        url('https://www.transparenttextures.com/patterns/dot-grid.png');
+    background-size: 350px 350px, 350px 350px, 400px 400px, 250px 250px;
+    opacity: 0.9;
+    z-index: 0;
+}
+
+/* ====== WAVE EFEK ====== */
+.wave-top, .wave-bottom {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.3;
+    z-index: 0;
+}
+.wave-top {
+    top: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23e4b4b4" fill-opacity="1" d="M0,192L80,170.7C160,149,320,107,480,96C640,85,800,107,960,144C1120,181,1280,235,1360,261.3L1440,288L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+}
+.wave-bottom {
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23e4b4b4" fill-opacity="1" d="M0,160L80,138.7C160,117,320,75,480,90.7C640,107,800,181,960,213.3C1120,245,1280,235,1360,229.3L1440,224L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path></svg>');
+}
+
+/* ====== WATERMARK STATISTIK ====== */
+.stat-shape {
+    position: fixed;
+    opacity: 0.07;
+    z-index: 0;
+    transform: rotate(-10deg);
+}
+.stat-shape.chart-left {
+    top: 5%;
+    left: 2%;
+    width: 260px;
+    height: 260px;
+    background: url('https://cdn-icons-png.flaticon.com/512/2830/2830310.png') no-repeat center;
+    background-size: contain;
+}
+.stat-shape.chart-right {
+    bottom: 5%;
+    right: 2%;
+    width: 280px;
+    height: 280px;
+    background: url('https://cdn-icons-png.flaticon.com/512/3225/3225193.png') no-repeat center;
+    background-size: contain;
+}
+
+/* ====== CARD (GLASSMORPHISM) ====== */
+div[data-testid="stMarkdownContainer"] .glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     backdrop-filter: blur(12px);
-    margin-bottom: 25px;
-    border: 1px solid rgba(255,255,255,0.3);
-    position: relative;
-    z-index: 1;
-}
-.title-text {
-    font-size: 36px;
-    font-weight: 800;
-    color: #4a1f1f;
-    text-shadow: 0 0 12px rgba(255, 240, 240, 0.6);
 }
 
-/* ======== LOGO ======== */
-.header img {
-    width: 90px;
-    margin-right: 20px;
-    filter: drop-shadow(0 0 10px rgba(150, 80, 80, 0.4));
-    animation: float 4s ease-in-out infinite;
-}
-@keyframes float {
-    0%,100% {transform: translateY(0px);}
-    50% {transform: translateY(-5px);}
-}
-
-/* ======== CARD (GLASS EFFECT) ======== */
-.glass-card {
-    background: rgba(255,255,255,0.55);
-    border-radius: 16px;
-    padding: 22px;
-    border: 1px solid rgba(255,200,200,0.4);
-    box-shadow: 0 6px 20px rgba(120,60,60,0.15);
-    backdrop-filter: blur(12px);
-    color: #3b2b2b;
-    position: relative;
-    z-index: 1;
-}
-
-/* ======== SIDEBAR ======== */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #f1d1d1 0%, #e7bdbd 60%, #d6a8a8 100%);
-    color: #2b1d1d;
-}
-section[data-testid="stSidebar"] h1, 
-section[data-testid="stSidebar"] label,
-section[data-testid="stSidebar"] span {
-    color: #2b1d1d !important;
-}
-
-/* ======== FILE UPLOADER ======== */
-section[data-testid="stFileUploader"] div[role="button"] {
-    background-color: rgba(255,255,255,0.8);
-    color: #3b1f1f !important;
-    border: 1px solid rgba(120,80,80,0.3);
-    border-radius: 10px;
-    padding: 8px;
-    transition: all 0.3s ease;
-}
-section[data-testid="stFileUploader"] div[role="button"]:hover {
-    background-color: rgba(255,255,255,0.95);
-    box-shadow: 0 0 10px rgba(180,120,120,0.3);
-}
-
-/* ======== FOOTER ======== */
-footer {
-    text-align:center;
-    color:#5c2a2a;
-    margin-top:40px;
-    font-size:14px;
+/* ====== PASTIKAN KONTEN DI DEPAN ====== */
+header, footer, .stApp, .block-container {
     position: relative;
     z-index: 1;
 }
 </style>
+
+<div class="wave-top"></div>
+<div class="wave-bottom"></div>
+<div class="stat-shape chart-left"></div>
+<div class="stat-shape chart-right"></div>
 """, unsafe_allow_html=True)
 
 # ==========================
