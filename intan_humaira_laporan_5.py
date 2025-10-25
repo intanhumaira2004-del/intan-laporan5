@@ -16,18 +16,19 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (SOFT ROSE BEIGE THEME)
+# CSS STYLING (SOFT ROSE GLOW THEME)
 # ==========================
 st.markdown("""
 <style>
 /* ======== BACKGROUND ======== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #f9e6e6 0%, #f2d5d5 40%, #e6c2c2 80%, #d9b1b1 100%);
+    background: linear-gradient(135deg, #f9e6e6 0%, #f4dada 35%, #f1cccc 70%, #e7bfbf 100%);
     background-attachment: fixed;
     background-size: 300% 300%;
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 18s ease infinite;
     min-height: 100vh;
     color: #2b1d1d;
+    position: relative;
 }
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
@@ -35,26 +36,18 @@ st.markdown("""
     100% {background-position: 0% 50%;}
 }
 
-/* ======== VISUAL DEKORASI ======== */
+/* ======== SOFT LIGHT IN CENTER ======== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -120px;
-    left: -100px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(255,200,200,0.3) 0%, transparent 70%);
-    filter: blur(60px);
-}
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    bottom: -150px;
-    right: -150px;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(255,180,180,0.3) 0%, transparent 70%);
-    filter: blur(60px);
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(255,230,230,0.55) 0%, rgba(255,210,210,0.25) 40%, transparent 80%);
+    filter: blur(100px);
+    z-index: 0;
 }
 
 /* ======== HEADER ======== */
@@ -62,26 +55,28 @@ st.markdown("""
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.45);
+    background: rgba(255,255,255,0.5);
     padding: 20px;
     border-radius: 18px;
-    box-shadow: 0 4px 20px rgba(160, 100, 100, 0.25);
+    box-shadow: 0 4px 25px rgba(160, 100, 100, 0.25);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
     border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    z-index: 1;
 }
 .title-text {
     font-size: 36px;
     font-weight: 800;
     color: #4a1f1f;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    text-shadow: 0 0 12px rgba(255, 240, 240, 0.6);
 }
 
 /* ======== LOGO ======== */
 .header img {
     width: 90px;
     margin-right: 20px;
-    filter: drop-shadow(0 0 8px rgba(150, 80, 80, 0.4));
+    filter: drop-shadow(0 0 10px rgba(150, 80, 80, 0.4));
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
@@ -89,20 +84,22 @@ st.markdown("""
     50% {transform: translateY(-5px);}
 }
 
-/* ======== KOTAK GLASS EFFECT ======== */
+/* ======== CARD (GLASS EFFECT) ======== */
 .glass-card {
     background: rgba(255,255,255,0.55);
     border-radius: 16px;
     padding: 22px;
     border: 1px solid rgba(255,200,200,0.4);
-    box-shadow: 0 6px 20px rgba(100,0,0,0.15);
+    box-shadow: 0 6px 20px rgba(120,60,60,0.15);
     backdrop-filter: blur(12px);
     color: #3b2b2b;
+    position: relative;
+    z-index: 1;
 }
 
 /* ======== SIDEBAR ======== */
 section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #e3bebe 0%, #d6a5a5 60%, #c28f8f 100%);
+    background: linear-gradient(180deg, #f1d1d1 0%, #e7bdbd 60%, #d6a8a8 100%);
     color: #2b1d1d;
 }
 section[data-testid="stSidebar"] h1, 
@@ -131,6 +128,8 @@ footer {
     color:#5c2a2a;
     margin-top:40px;
     font-size:14px;
+    position: relative;
+    z-index: 1;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -214,19 +213,17 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 🌤️ Analisis Visual - Soft Rose Beige Theme")
+st.markdown("### 🌤️ Analisis Visual")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
     st.image(img, caption="📸 Gambar yang Diupload", use_container_width=True)
 
-    # MODE DETEKSI YOLO
     if mode == "Deteksi Objek (YOLO)" and yolo_model:
         results = yolo_model(img)
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-    # MODE KLASIFIKASI GAMBAR
     elif mode == "Klasifikasi Gambar" and classifier:
         input_shape = classifier.input_shape[1:3]
         img_resized = img.resize(input_shape)
