@@ -14,59 +14,83 @@ import os
 st.set_page_config(page_title="HoloFruit Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (Tema Statistik + Gradasi Elegan)
+# CSS STYLING (Tema Statistik Modern + Background Bergambar)
 # ==========================
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(
-        135deg, 
-        rgba(240,248,255,0.93) 0%, 
-        rgba(255,255,255,0.96) 40%, 
-        rgba(245,250,255,1) 100%
-    ),
-    url("https://cdn.pixabay.com/photo/2020/09/29/16/51/data-5615376_1280.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: 
+        linear-gradient(rgba(240, 247, 255, 0.92), rgba(240, 247, 255, 0.92)),
+        url("2D92E412-53C3-4776-9179-5F99A0176B7D.jpeg");
     background-size: cover;
+    background-position: center;
     background-attachment: fixed;
+    background-repeat: no-repeat;
 }
 
-/* Efek lembut di konten */
+/* Header dengan efek neon lembut */
 .header {
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255, 255, 255, 0.8);
     padding: 18px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,100,200,0.15);
+    box-shadow: 0 4px 25px rgba(0, 80, 180, 0.25);
     backdrop-filter: blur(10px);
     margin-bottom: 25px;
 }
-.header img { width: 100px; margin-right: 20px; filter: drop-shadow(0 0 15px rgba(0,150,255,0.5)); animation: float 4s ease-in-out infinite; }
-@keyframes float { 0%,100% {transform: translateY(0px);} 50% {transform: translateY(-6px);} }
+.header img { 
+    width: 95px; 
+    margin-right: 20px; 
+    filter: drop-shadow(0 0 10px rgba(0, 150, 255, 0.5)); 
+    animation: float 4s ease-in-out infinite; 
+}
+@keyframes float { 
+    0%,100% {transform: translateY(0px);} 
+    50% {transform: translateY(-6px);} 
+}
 
+/* Judul utama dengan gradasi futuristik */
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#007bff,#00d4ff,#004aad);
+    background: linear-gradient(90deg,#004aad,#5e60ce,#00b4d8);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(0,160,255,0.3);
+    text-shadow: 0 0 18px rgba(0,120,255,0.3);
 }
 
+/* Kartu kaca untuk konten */
 .glass-card {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.75);
     border-radius: 16px;
-    padding: 20px;
-    border: 1px solid rgba(160,200,255,0.35);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.12);
-    backdrop-filter: blur(10px);
+    padding: 22px;
+    border: 1px solid rgba(160,200,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
+    backdrop-filter: blur(12px);
 }
+
+/* Tombol sidebar */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #004aad 0%, #5e60ce 100%);
+}
+.stButton>button {
+    background-color: #4ea8de !important;
+    color: white !important;
+    border-radius: 10px !important;
+    border: none !important;
+    font-weight: 600 !important;
+    box-shadow: 0 3px 12px rgba(0,80,160,0.3);
+}
+.stButton>button:hover {
+    background-color: #4361ee !important;
+}
+
+/* Footer */
 footer {
     text-align:center;
-    color:#004aad;
+    color:#003366;
     margin-top:40px;
     font-size:14px;
 }
@@ -93,7 +117,7 @@ with col2:
     st.markdown("""
     <div class="header">
         <div class="title-text">HoloFruit Vision Dashboard 🍎<br>
-        <span style='font-size:18px;font-weight:500;color:#007bff;'>A Statistical Approach to AI-Based Fruit Classification</span></div>
+        <span style='font-size:18px;font-weight:500;color:#0056b3;'>A Statistical Approach to AI-Based Fruit Classification</span></div>
     </div>
     """, unsafe_allow_html=True)
 
