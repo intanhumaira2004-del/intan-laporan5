@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""HoloVision Dashboard"""
+"""HoloVision Dashboard - Maroon Theme"""
 
 import streamlit as st
 from ultralytics import YOLO
@@ -13,91 +13,111 @@ import plotly.graph_objects as go
 # ==========================
 # KONFIGURASI DASAR
 # ==========================
-st.set_page_config(page_title=" HoloFruits Vision Dashboard", layout="wide")
+st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING DASHBOARD 🌈
+# CSS STYLING (MAROON THEME)
 # ==========================
 st.markdown("""
 <style>
+/* ======== BACKGROUND ======== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background: linear-gradient(135deg, #3b0000 0%, #5c1a1a 35%, #7a2b2b 70%, #a84242 100%);
     background-attachment: fixed;
-    background-size: 200% 200%;
-    animation: gradientShift 12s ease infinite;
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
+    color: #fff;
 }
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
+
+/* ======== VISUAL DEKORASI ======== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -80px;
-    left: -120px;
-    width: 800px;
-    height: 800px;
-    background: url('https://cdn-icons-png.flaticon.com/512/6062/6062646.png') no-repeat;
-    background-size: 320px;
-    opacity: 0.08;
-    transform: rotate(25deg);
+    top: -100px;
+    left: -150px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255,200,200,0.15) 0%, transparent 70%);
+    filter: blur(40px);
 }
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
-    bottom: -100px;
+    bottom: -150px;
     right: -120px;
     width: 900px;
     height: 900px;
-    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
-    background-size: 340px;
-    opacity: 0.09;
-    transform: rotate(-15deg);
+    background: radial-gradient(circle, rgba(255,170,170,0.15) 0%, transparent 70%);
+    filter: blur(40px);
 }
+
+/* ======== HEADER ======== */
 .header {
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.7);
-    padding: 18px;
+    background: rgba(255,255,255,0.08);
+    padding: 20px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
+    box-shadow: 0 4px 25px rgba(255, 150, 150, 0.3);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
+    border: 1px solid rgba(255,180,180,0.2);
 }
+.title-text {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(90deg,#ffcccc,#ffe6e6,#ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(255,200,200,0.4);
+}
+
+/* ======== LOGO ======== */
 .header img {
     width: 100px;
     margin-right: 20px;
-    filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
+    filter: drop-shadow(0 0 15px rgba(255, 200, 200, 0.4));
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
     0%,100% {transform: translateY(0px);}
     50% {transform: translateY(-6px);}
 }
-.title-text {
-    font-size: 34px;
-    font-weight: 800;
-    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0,180,255,0.4);
-}
+
+/* ======== KOTAK GLASS EFFECT ======== */
 .glass-card {
-    background: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 20px;
-    border: 1px solid rgba(180,220,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,200,200,0.3);
+    box-shadow: 0 6px 20px rgba(100,0,0,0.3);
+    backdrop-filter: blur(15px);
+    color: #fbeaea;
 }
+
+/* ======== SIDEBAR ======== */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #2b0000, #4a0e0e, #6a1a1a);
+    color: white;
+}
+section[data-testid="stSidebar"] h1, 
+section[data-testid="stSidebar"] label {
+    color: #ffe6e6 !important;
+}
+
+/* ======== FOOTER ======== */
 footer {
     text-align:center;
-    color:#0080b9;
+    color:#ffcccc;
     margin-top:40px;
     font-size:14px;
 }
@@ -120,17 +140,17 @@ with col1:
     if logo_path:
         st.image(logo_path, use_container_width=True)
     else:
-        st.markdown("<div style='width:90px;height:90px;background:#0b2149;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#9fd7ff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
+        st.markdown("<div style='width:90px;height:90px;background:#600000;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#ffcccc;font-weight:700;'>USK</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
     <div class="header">
-        <div class="title-text">Neura HoloLab 3D</div>
+        <div class="title-text">HoloFruits Vision Dashboard</div>
     </div>
     """, unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET 📚
+# DESKRIPSI DATASET 
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -183,7 +203,7 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 🌤️ Analisis Visual Holografik")
+st.markdown("### 🌤️ Analisis Visual MaroonVision")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
@@ -212,7 +232,6 @@ if uploaded_file:
         class_index = np.argmax(prediction)
         conf = np.max(prediction)
         st.success(f"✅ Prediksi: **{class_index}** ({conf*100:.2f}%)")
-
     else:
         st.warning("⚠️ Model tidak ditemukan di folder Model/.")
 else:
