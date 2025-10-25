@@ -1,10 +1,9 @@
 streamlit
-tensorflow
-pandas
-numpy
-matplotlib
-seaborn
 ultralytics
+tensorflow
 opencv-python-headless
-pillow
+Pillow
+numpy
 plotly
+requests
+streamlit-lottie
