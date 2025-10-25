@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""HoloFruit Vision"""
+"""HoloFruit Vision Dashboard"""
 import streamlit as st
 from ultralytics import YOLO
 import tensorflow as tf
@@ -14,58 +14,59 @@ import os
 st.set_page_config(page_title="HoloFruit Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (Latar Holografik Tetap)
-# + Dekorasi Tambahan di Sudut
+# CSS STYLING (Latar Statistik + Holografik)
 # ==========================
 st.markdown("""
 <style>
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background: linear-gradient(135deg, #e6f2ff 0%, #f8fbff 40%, #ffffff 100%);
     background-attachment: fixed;
     background-size: 200% 200%;
-    animation: gradientShift 12s ease infinite;
+    animation: gradientShift 14s ease infinite;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
 }
 
+/* Animasi gradasi */
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
-/* Dekorasi buah di sudut */
+/* Dekorasi statistik kiri atas (scatter transparan) */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -60px;
-    left: -80px;
-    width: 600px;
-    height: 600px;
-    background: url('https://cdn-icons-png.flaticon.com/512/415/415682.png') no-repeat;
-    background-size: 300px;
+    top: -100px;
+    left: -100px;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4406/4406251.png') no-repeat;
+    background-size: 320px;
     opacity: 0.07;
-    transform: rotate(20deg);
+    transform: rotate(15deg);
 }
 
+/* Dekorasi kanan bawah (chart grid transparan) */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
-    bottom: -80px;
-    right: -100px;
-    width: 650px;
-    height: 650px;
-    background: url('https://cdn-icons-png.flaticon.com/512/2769/2769608.png') no-repeat;
-    background-size: 320px;
+    bottom: -100px;
+    right: -120px;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/9473/9473173.png') no-repeat;
+    background-size: 340px;
     opacity: 0.08;
-    transform: rotate(-15deg);
+    transform: rotate(-10deg);
 }
 
-/* Tambahan visual palsu (grafik lembut di tengah bawah) */
+/* Visual tambahan di tengah bawah (garis tren halus) */
 .fake-visual {
     position: absolute;
-    bottom: 60px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0.06;
@@ -79,10 +80,10 @@ st.markdown("""
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.75);
     padding: 18px;
     border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
+    box-shadow: 0 4px 25px rgba(0,120,255,0.25);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
 }
@@ -92,23 +93,23 @@ st.markdown("""
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
+    background: linear-gradient(90deg,#0066ff,#00aaff,#00e1ff);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 25px rgba(0,180,255,0.4);
 }
 
 .glass-card {
-    background: rgba(255,255,255,0.75);
+    background: rgba(255,255,255,0.8);
     border-radius: 16px;
     padding: 20px;
-    border: 1px solid rgba(180,220,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
+    border: 1px solid rgba(160,210,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.12);
     backdrop-filter: blur(12px);
 }
 footer {
     text-align:center;
-    color:#0080b9;
+    color:#0078b9;
     margin-top:40px;
     font-size:14px;
 }
@@ -135,12 +136,12 @@ with col1:
 with col2:
     st.markdown("""
     <div class="header">
-        <div class="title-text">Dashboard Klasifikasi Buah Segar dan Busuk 🍎</div>
+        <div class="title-text">HoloFruit Vision Dashboard </div>
     </div>
     """, unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET 📚
+# DESKRIPSI DATASET
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -157,7 +158,7 @@ mencakup tiga jenis buah: apel, pisang, dan jeruk. Setiap kombinasi menghasilkan
 <li>rottenoranges</li>
 Dataset terbagi menjadi dua bagian utama: Train: 10.901 gambar dan Test: 2.698 gambar.
 <br>Tujuan utama dataset ini adalah untuk melatih dan menguji model klasifikasi gambar agar dapat mengenali kondisi buah berdasarkan penampilan visualnya.
-Dataset ini banyak digunakan dalam penelitian bidang Computer Vision dan Deep Learning menggunakan arsitektur Convolutional Neural Network (CNN).
+Dataset ini banyak digunakan dalam penelitian bidang Computer Vision, Deep Learning, dan analisis statistik berbasis citra.
 </p>
 </div>
 """, unsafe_allow_html=True)
@@ -185,7 +186,7 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 🌤️ Analisis Visual Holografik")
+st.markdown("### 📊 Analisis Visual Statistik & AI")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
@@ -214,10 +215,10 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 —  HoloFruit Vision Dashboard | By Intan Humaira 
+© 2025 — HoloFruit Vision Dashboard | by Intan Humaira 🎓
 </footer>
 """, unsafe_allow_html=True)
 
 st.markdown("""
-<img class="fake-visual" src="https://cdn-icons-png.flaticon.com/512/1995/1995574.png">
+<img class="fake-visual" src="https://cdn-icons-png.flaticon.com/512/3408/3408559.png">
 """, unsafe_allow_html=True)
