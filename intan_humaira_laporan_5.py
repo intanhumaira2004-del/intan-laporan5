@@ -13,18 +13,19 @@ import plotly.graph_objects as go
 # ==========================
 # KONFIGURASI DASAR
 # ==========================
-st.set_page_config(page_title=" HoloFruits Vision Dashboard", layout="wide")
+st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
 # CSS STYLING DASHBOARD 🌈
 # ==========================
 st.markdown("""
 <style>
+/* ====== BACKGROUND GRADIENT MAROON LEMBUT ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background: linear-gradient(135deg, #fff5f7 0%, #fbe9eb 45%, #f7dfe3 100%);
     background-attachment: fixed;
     background-size: 200% 200%;
-    animation: gradientShift 12s ease infinite;
+    animation: gradientShift 14s ease infinite;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
@@ -34,45 +35,50 @@ st.markdown("""
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
+
+/* ====== ILUSTRASI LEMBUT DI BACKGROUND ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: -80px;
-    left: -120px;
-    width: 800px;
-    height: 800px;
-    background: url('https://cdn-icons-png.flaticon.com/512/6062/6062646.png') no-repeat;
-    background-size: 320px;
-    opacity: 0.08;
-    transform: rotate(25deg);
+    top: -60px;
+    left: -100px;
+    width: 700px;
+    height: 700px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
+    background-size: 300px;
+    opacity: 0.07;
+    transform: rotate(20deg);
 }
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
-    bottom: -100px;
+    bottom: -120px;
     right: -120px;
-    width: 900px;
-    height: 900px;
-    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png') no-repeat;
     background-size: 340px;
-    opacity: 0.09;
+    opacity: 0.08;
     transform: rotate(-15deg);
 }
+
+/* ====== HEADER ====== */
 .header {
     display:flex;
     align-items:center;
     justify-content:center;
-    background: rgba(255,255,255,0.7);
+    background: rgba(255,255,255,0.75);
     padding: 18px;
-    border-radius: 18px;
-    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
+    border-radius: 20px;
+    box-shadow: 0 4px 25px rgba(128,0,0,0.2);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
+    border: 1px solid rgba(180,100,100,0.2);
 }
 .header img {
-    width: 100px;
+    width: 95px;
     margin-right: 20px;
-    filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
+    filter: drop-shadow(0 0 12px rgba(150,0,0,0.4));
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
@@ -82,24 +88,37 @@ st.markdown("""
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
+    background: linear-gradient(90deg,#7a1c1c,#b33b3b,#d65f5f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0,180,255,0.4);
+    text-shadow: 0 0 25px rgba(200,80,80,0.3);
 }
+
+/* ====== KARTU KACA (GLASS CARD) ====== */
 .glass-card {
-    background: rgba(255,255,255,0.75);
-    border-radius: 16px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 18px;
     padding: 20px;
-    border: 1px solid rgba(180,220,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
-    backdrop-filter: blur(12px);
+    border: 1px solid rgba(200,150,150,0.3);
+    box-shadow: 0 6px 22px rgba(120,0,0,0.1);
+    backdrop-filter: blur(14px);
 }
+
+/* ====== FOOTER ====== */
 footer {
     text-align:center;
-    color:#0080b9;
+    color:#7a1c1c;
     margin-top:40px;
     font-size:14px;
+}
+
+/* ====== DESAIN TAMBAHAN STATISTIK LEMBUT DI SUDUT ====== */
+.stat-deco {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    opacity: 0.1;
+    width: 220px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -120,14 +139,19 @@ with col1:
     if logo_path:
         st.image(logo_path, use_container_width=True)
     else:
-        st.markdown("<div style='width:90px;height:90px;background:#0b2149;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#9fd7ff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
+        st.markdown("<div style='width:90px;height:90px;background:#7a1c1c;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#ffeaea;font-weight:700;'>USK</div>", unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
     <div class="header">
-        <div class="title-text">Neura HoloLab 3D</div>
+        <div class="title-text">HoloFruits Vision Dashboard</div>
     </div>
     """, unsafe_allow_html=True)
+
+# Tambahkan elemen visual statistik (ikon grafik lembut)
+st.markdown("""
+<img class='stat-deco' src='https://cdn-icons-png.flaticon.com/512/4149/4149686.png'>
+""", unsafe_allow_html=True)
 
 # ==========================
 # DESKRIPSI DATASET 📚
@@ -189,17 +213,11 @@ if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
     st.image(img, caption="📸 Gambar yang Diupload", use_container_width=True)
 
-    # ==========================
-    # MODE DETEKSI YOLO
-    # ==========================
     if mode == "Deteksi Objek (YOLO)" and yolo_model:
         results = yolo_model(img)
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-    # ==========================
-    # MODE KLASIFIKASI GAMBAR
-    # ==========================
     elif mode == "Klasifikasi Gambar" and classifier:
         st.write("Ukuran input model:", classifier.input_shape)
         input_shape = classifier.input_shape[1:3]
