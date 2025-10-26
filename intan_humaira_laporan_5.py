@@ -18,145 +18,134 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* 🌸 LATAR BELAKANG GRADIENT + MOTIF DATA BUAH */
+/* 🌈 Background utama dengan efek gerak halus */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff6f8 0%, #fae3e7 40%, #f8dce1 80%);
-    background-attachment: fixed;
+    background: linear-gradient(135deg, #fff5f7, #ffeef1, #fbe7ea, #ffeef5);
     background-size: 300% 300%;
-    animation: gradientShift 18s ease infinite;
-    min-height: 100vh;
-    overflow: visible !important;
-    position: relative;
-}
-@keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    animation: gradientMove 18s ease-in-out infinite;
+    overflow-y: auto !important;
 }
 
-/* 🍓 MOTIF TITIK HALUS STATISTIKA */
+/* ✨ Animasi pergeseran warna */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 🍓 Pola lembut titik-titik */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: fixed;
     inset: 0;
-    background-image: radial-gradient(rgba(180,50,50,0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: moveDots 25s linear infinite;
+    background-image: radial-gradient(rgba(255, 100, 130, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
     z-index: 0;
-    pointer-events: none;
-}
-@keyframes moveDots {
-    0% {background-position: 0 0;}
-    100% {background-position: 120px 120px;}
 }
 
-/* 🍌 IKON DEKORASI: GRAFIK + BUAH */
+/* 🍊 Ikon kecil buah dan grafik yang bergerak pelan */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: fixed;
     inset: 0;
     background-image:
-        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
-        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),   /* jeruk */
-        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),   /* pisang */
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'), /* grafik */
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149686.png'); /* chart data */
+        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'),
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png');
     background-repeat: no-repeat;
-    background-size: 140px, 120px, 110px, 150px, 160px;
-    background-position:
-        8% 20%,  /* apel kiri atas */
-        85% 25%, /* jeruk kanan atas */
-        12% 85%, /* pisang kiri bawah */
-        80% 70%, /* grafik kanan tengah */
-        45% 90%; /* chart bawah tengah */
+    background-size: 70px, 80px, 90px;
+    background-position: 5% 10%, 90% 60%, 50% 90%;
     opacity: 0.08;
-    z-index: 0;
+    animation: floatIcons 25s linear infinite;
     pointer-events: none;
+    z-index: 0;
 }
 
-/* 📊 BATAS LEBAR DASHBOARD */
+/* 🍉 Animasi lembut untuk ikon latar */
+@keyframes floatIcons {
+    0% { background-position: 5% 10%, 90% 60%, 50% 90%; }
+    50% { background-position: 7% 15%, 88% 55%, 48% 92%; }
+    100% { background-position: 5% 10%, 90% 60%, 50% 90%; }
+}
+
+/* 📏 Batas lebar dashboard */
 [data-testid="stVerticalBlock"] {
-    max-width: 1080px;
+    max-width: 1050px;
     margin: auto;
-    padding: 1.5rem;
+    padding: 1rem 2rem;
     position: relative;
     z-index: 2;
 }
 
-/* 💫 HEADER */
+/* 🪞 Header dan logo */
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.75);
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0 4px 25px rgba(128,0,0,0.2);
-    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.8);
+    padding: 20px 30px;
+    border-radius: 22px;
+    box-shadow: 0 4px 25px rgba(150,0,0,0.1);
+    backdrop-filter: blur(10px);
     margin-bottom: 25px;
-    border: 1px solid rgba(180,100,100,0.25);
     z-index: 2;
 }
 .header img {
-    width: 120px;
+    width: 220px; /* ✅ Diperbesar dari sebelumnya */
     margin-right: 25px;
-    filter: drop-shadow(0 0 10px rgba(150,0,0,0.4));
-    animation: float 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 8px rgba(120,0,0,0.25));
+    transition: transform 0.3s ease-in-out;
 }
-@keyframes float {
-    0%,100% {transform: translateY(0px);}
-    50% {transform: translateY(-6px);}
+.header img:hover {
+    transform: scale(1.05); /* ✨ Efek hover lembut */
 }
 
-/* ✨ JUDUL BERGERAK LEMBUT */
+/* 🩷 Judul dashboard dengan efek gerak & glow */
 .title-text {
     font-size: 36px;
     font-weight: 800;
     text-align: center;
-    background: linear-gradient(90deg,#7a1f1f,#b14a4a,#e88888);
+    background: linear-gradient(90deg,#8b1e1e,#c94b4b,#f28f8f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 15px rgba(120,0,0,0.25);
-    animation: glowText 6s ease-in-out infinite, titleFloat 8s ease-in-out infinite;
+    animation: glowText 6s ease-in-out infinite, floatTitle 4s ease-in-out infinite;
 }
 @keyframes glowText {
-    0%,100% {text-shadow: 0 0 10px rgba(180,50,50,0.4);}
-    50% {text-shadow: 0 0 25px rgba(220,70,70,0.6);}
+    0%,100% { text-shadow: 0 0 10px rgba(180,50,50,0.3); }
+    50% { text-shadow: 0 0 25px rgba(220,70,70,0.6); }
 }
-@keyframes titleFloat {
-    0%,100% {transform: translateY(0);}
-    50% {transform: translateY(-4px);}
+@keyframes floatTitle {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
-/* 💎 KARTU KACA */
+/* 🍋 Kartu konten */
 .glass-card {
     background: rgba(255,255,255,0.85);
     border-radius: 18px;
     padding: 22px;
     border: 1px solid rgba(200,150,150,0.3);
-    box-shadow: 0 6px 22px rgba(120,0,0,0.1);
+    box-shadow: 0 4px 18px rgba(120,0,0,0.1);
     backdrop-filter: blur(14px);
     z-index: 2;
 }
 
-/* 🎨 SIDEBAR */
+/* 🍍 Sidebar */
 [data-testid="stSidebar"] {
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(8px);
     border-right: 1px solid rgba(160,80,80,0.15);
 }
 
-/* 🌷 FOOTER */
+/* 📊 Footer */
 footer {
     text-align: center;
     color: #7a1c1c;
     margin-top: 40px;
     font-size: 14px;
     font-weight: 500;
-    z-index: 2;
 }
 
-/* 🧭 SCROLL HALUS */
 html {
     scroll-behavior: smooth;
 }
