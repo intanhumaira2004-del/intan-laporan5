@@ -15,9 +15,6 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
-# ==========================
-# CSS FINAL – HOLOFRUITS STATISTIKA 🍒📊
-# ==========================
 st.markdown("""
 <style>
 
@@ -28,8 +25,8 @@ st.markdown("""
     background-size: 250% 250%;
     animation: gradientShift 18s ease infinite;
     min-height: 100vh;
+    overflow: visible !important; /* FIX SCROLL BUG */
     position: relative;
-    overflow-x: hidden;
 }
 @keyframes gradientShift {
     0% {background-position: 0% 50%;}
@@ -40,12 +37,16 @@ st.markdown("""
 /* ====== TITIK DATA HALUS ====== */
 [data-testid="stAppViewContainer"]::after {
     content: "";
-    position: absolute;
-    inset: 0;
+    position: fixed; /* FIX: dari absolute -> fixed biar gak potong scroll */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image: radial-gradient(rgba(120,0,0,0.05) 1px, transparent 1px);
     background-size: 35px 35px;
     animation: moveDots 25s linear infinite;
     z-index: 0;
+    pointer-events: none;
 }
 @keyframes moveDots {
     0% {background-position: 0 0;}
@@ -55,8 +56,11 @@ st.markdown("""
 /* ====== IKON STATISTIKA DI LATAR ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    position: fixed; /* FIX: biar latar tetap di belakang tapi gak ganggu scroll */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'),
         url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),
@@ -68,17 +72,19 @@ st.markdown("""
     opacity: 0.07;
     transform: rotate(2deg);
     z-index: 0;
+    pointer-events: none;
 }
 
 /* ====== BATAS UKURAN DASHBOARD ====== */
-.main {
+[data-testid="stVerticalBlock"] {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    margin: auto;
+    padding: 1.5rem;
     z-index: 2;
+    position: relative;
 }
 
-/* ====== HEADER DAN LOGO ====== */
+/* ====== HEADER ====== */
 .header {
     display: flex;
     align-items: center;
@@ -103,7 +109,7 @@ st.markdown("""
     50% {transform: translateY(-6px);}
 }
 
-/* ====== JUDUL DENGAN EFEK BERDENYUT DAN MELAYANG ====== */
+/* ====== JUDUL BERDENYUT DAN MELAYANG ====== */
 .title-text {
     font-size: 36px;
     font-weight: 800;
