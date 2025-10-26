@@ -28,7 +28,7 @@ st.markdown("""
     animation: holoShift 16s ease infinite;
     overflow-y: auto !important;
     position: relative !important;
-    z-index: 0 !important;
+    z-index: 1 !important;
 }
 @keyframes holoShift {
     0% { background-position: 0% 50%; }
@@ -156,7 +156,61 @@ footer {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+html, body {
+    height: auto !important;
+    overflow-y: visible !important;
+}
 
+[data-testid="stSidebar"] {
+    background: linear-gradient(145deg, #fff5f7 0%, #ffe0e6 35%, #f6ccd3 70%, #e8b6c3 100%) !important;
+    color: #4a0f16 !important;
+    backdrop-filter: blur(14px);
+    border-right: 2px solid rgba(150, 0, 0, 0.1);
+    box-shadow: 4px 0 20px rgba(150, 0, 0, 0.05);
+}
+
+/* Judul sidebar (ikon + teks “Mode Analisis”) */
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #7a1f1f !important;
+    font-weight: 700 !important;
+}
+
+/* Card upload & selectbox di sidebar */
+[data-testid="stSidebar"] .stSelectbox,
+[data-testid="stSidebar"] .stFileUploader {
+    background: rgba(255,255,255,0.75) !important;
+    border-radius: 14px !important;
+    padding: 10px !important;
+    border: 1px solid rgba(180,80,90,0.25) !important;
+    box-shadow: 0 4px 10px rgba(160,50,50,0.1) !important;
+}
+
+/* Pastikan teks di area upload tetap jelas */
+[data-testid="stSidebar"] .stFileUploader label,
+[data-testid="stSidebar"] .stFileUploader div,
+[data-testid="stSidebar"] .stFileUploader p {
+    color: #2c0a0f !important;  
+    font-weight: 500 !important;
+}
+
+/* Tombol “Browse files” */
+[data-testid="stSidebar"] button {
+    background: linear-gradient(90deg, #b64b5a, #e7a2a9) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(160, 60, 70, 0.25) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stSidebar"] button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
+}
+
+}
 </style>
 """, unsafe_allow_html=True)
 
