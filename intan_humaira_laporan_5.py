@@ -156,7 +156,20 @@ footer {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+/* ====== FIX: Biar Bisa Scroll Sampai Bawah ====== */
+[data-testid="stAppViewContainer"],
+[data-testid="stVerticalBlock"],
+.block-container {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    position: relative !important;
+}
 
+/* Kadang Streamlit pakai wrapper tambahan yang ngunci scroll */
+html, body {
+    overflow: auto !important;
+    height: auto !important;
 </style>
 """, unsafe_allow_html=True)
 
