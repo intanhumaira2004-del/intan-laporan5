@@ -215,11 +215,27 @@ footer {
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
 }
 
-/* === RUANG TAMBAHAN DI BAWAH SUPAYA SCROLL BISA SAMPAI AKHIR === */
+/* === FIX AKHIR: PAKSA SCROLL CONTAINER STREAMLIT === */
+main, .main, .block-container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100vh !important;
+}
+
+[data-testid="stAppViewContainer"] > section {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 100vh !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* === Tambahkan ruang bawah ekstra === */
 .block-container::after {
     content: "";
     display: block;
-    height: 120px;
+    height: 150px;
 }
 
 </style>
