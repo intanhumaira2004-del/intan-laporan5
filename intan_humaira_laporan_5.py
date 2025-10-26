@@ -18,18 +18,20 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* === BACKGROUND MAROON HOLOGRAPHIC === */
+/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff6f9 0%, #ffe9ef 25%, #f6d4da 55%, #e0b7c6 100%);
+    background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-attachment: fixed;
     background-size: 300% 300%;
-    animation: holoShift 18s ease infinite;
-    position: relative !important;
+    animation: holoShift 16s ease infinite;
+    overflow-y: auto !important;
     overflow-x: hidden !important;
-    overflow-y: visible !important; 
+    position: relative !important;
+    min-height: 100vh !important;
     display: flex;
-    justify-content: center;
-    padding: 40px 0 !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    z-index: 0 !important;
 }
 @keyframes holoShift {
     0% { background-position: 0% 50%; }
@@ -37,38 +39,63 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* === BODY / HTML SCROLL FIX === */
+/* === GLOBAL FIX: SCROLL DAN RUANG === */
 html, body {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
     height: auto !important;
     overflow-x: hidden !important;
-    overflow-y: auto !important;   /* scroll disini aja */
+    overflow-y: auto !important;
     scroll-behavior: smooth !important;
 }
-
-/* === KONTEN UTAMA TENGAH (LEBAR SEDANG, PANJANG BEBAS) === */
 .main, .block-container {
-    background: rgba(255,255,255,0.78);
-    backdrop-filter: blur(18px);
-    border-radius: 22px;
-    border: 1px solid rgba(150,0,0,0.15);
-    box-shadow: 0 6px 25px rgba(100,0,0,0.15);
-    width: 1100px !important;  
-    max-width: 90% !important;
-    height: auto !important;   
-    padding: 50px 80px !important;
-    margin: 0 auto 120px auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
     overflow: visible !important;
-    position: relative !important;
+    padding: 40px 80px !important;
+    box-sizing: border-box !important;
 }
 
-/* === TAMBAHAN RUANG AGAR SCROLL SAMPAI BAWAH === */
-.block-container::after {
+/* === EFEK HOLOGRAFIK === */
+[data-testid="stAppViewContainer"]::before {
     content: "";
-    display: block;
-    height: 300px; /* tambahan agar footer gak ke-cut */
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
+                radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
+    animation: glowFloat 20s ease-in-out infinite alternate;
+    z-index: 0;
+}
+@keyframes glowFloat {
+    0% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-15px); opacity: 0.6; }
+    100% { transform: translateY(0px); opacity: 0.8; }
+}
+
+/* === IKON DEKORASI === */
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
+        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png');
+    background-repeat: no-repeat;
+    background-size: 160px, 140px, 150px, 180px;
+    background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%;
+    opacity: 0.08;
+    animation: floatIcons 30s linear infinite;
+    z-index: 0;
+}
+@keyframes floatIcons {
+    0% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
+    50% { background-position: 12% 18%, 78% 25%, 17% 82%, 68% 73%; }
+    100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
 /* === HEADER === */
@@ -113,6 +140,45 @@ html, body {
     text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
+/* === CARD KACA === */
+.glass-card {
+    background: rgba(255,255,255,0.78);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(190,120,120,0.3);
+    box-shadow: 0 6px 22px rgba(100,0,0,0.15);
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(120,0,0,0.25);
+}
+
+/* === FOOTER === */
+footer {
+    text-align: center;
+    color: #6a1a1a;
+    margin-top: 45px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* === STATISTIK HOLOGRAM === */
+.stat-deco {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    opacity: 0.12;
+    width: 230px;
+    filter: drop-shadow(0 0 12px rgba(255,200,200,0.4));
+    animation: rotateHolo 18s linear infinite;
+}
+@keyframes rotateHolo {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 /* === SIDEBAR === */
 [data-testid="stSidebar"] {
     background: linear-gradient(145deg, #fff5f7 0%, #ffe0e6 35%, #f6ccd3 70%, #e8b6c3 100%) !important;
@@ -122,17 +188,53 @@ html, body {
     box-shadow: 4px 0 20px rgba(150, 0, 0, 0.05);
 }
 
-/* === TOMBOL === */
+/* === TEKS & UPLOADER SIDEBAR === */
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #7a1f1f !important;
+    font-weight: 700 !important;
+}
+[data-testid="stSidebar"] .stSelectbox,
+[data-testid="stSidebar"] .stFileUploader {
+    background: rgba(255,255,255,0.75) !important;
+    border-radius: 14px !important;
+    padding: 10px !important;
+    border: 1px solid rgba(180,80,90,0.25) !important;
+    box-shadow: 0 4px 10px rgba(160,50,50,0.1) !important;
+}
+[data-testid="stSidebar"] .stFileUploader label,
+[data-testid="stSidebar"] .stFileUploader div,
+[data-testid="stSidebar"] .stFileUploader p {
+    color: #2c0a0f !important;  
+    font-weight: 500 !important;
+}
+
+/* === TOMBOL SIDEBAR === */
 [data-testid="stSidebar"] button {
     background: linear-gradient(90deg, #b64b5a, #e7a2a9) !important;
     color: white !important;
+    border: none !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
     box-shadow: 0 4px 12px rgba(160, 60, 70, 0.25) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stSidebar"] button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
+}
+
+/* === RUANG TAMBAHAN DI BAWAH UNTUK SCROLL === */
+.block-container::after {
+    content: "";
+    display: block;
+    height: 200px;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
 
 # ==========================
 # HEADER
