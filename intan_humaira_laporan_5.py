@@ -20,7 +20,7 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 /* ====== BACKGROUND MAROON KALEM BERGERAK ====== */
  [data-testid="stAppViewContainer"] {
-        background: linear-gradient(120deg, #fafff8 0%, #f1e1e3 40%, #e6ccd0 80%);
+        background: linear-gradient(125deg, #fafff8 0%, #f1e1e3 40%, #e6ccd0 80%);
         background-attachment: fixed;
         background-size: 300% 300%;
         animation: holoShift 16s ease infinite;
