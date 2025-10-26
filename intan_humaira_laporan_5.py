@@ -15,9 +15,11 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
+# ==========================
 # 🎨 FINAL CSS DASHBOARD TEMA MAROON-ORANGE STATISTIKA SEGAR 🍊📊
+# ==========================
+st.markdown("""
 <style>
-
 /* ====== BACKGROUND MAROON KALEM BERGERAK ====== */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fafff8 0%, #f1e1e3 40%, #e6ccd0 80%);
@@ -29,10 +31,10 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
     position: relative !important;
     z-index: 0 !important;
 }
-@keyframes gradientFlow {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+@keyframes holoShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* ====== TITIK STATISTIK HALUS ====== */
@@ -46,8 +48,8 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
     z-index: 0;
 }
 @keyframes moveDots {
-    0% {background-position: 0 0;}
-    100% {background-position: 120px 120px;}
+    0% { background-position: 0 0; }
+    100% { background-position: 120px 120px; }
 }
 
 /* ====== IKON KECIL BERTEMA STATISTIKA ====== */
@@ -134,7 +136,9 @@ footer {
     font-size: 14px;
     opacity: 0.8;
 }
+
 </style>
+""", unsafe_allow_html=True)
 
 # ==========================
 # HEADER
