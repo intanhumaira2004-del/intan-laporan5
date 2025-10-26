@@ -15,15 +15,17 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
+import streamlit as st
+
 st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
+/* 🌸 HOLOGRAFIK BACKGROUND — dipertahankan */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
-    background-attachment: scroll !important; /* FIXED: biar scroll lancar */
+    background-attachment: scroll !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     position: relative !important;
@@ -39,39 +41,36 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* === GLOBAL FIX: SCROLL DAN LAYOUT === */
+/* 🧭 FIX LAYOUT */
 html, body {
     margin: 0 !important;
     padding: 0 !important;
     width: 100% !important;
-    height: auto !important;
     overflow-x: hidden !important;
-    overflow-y: auto !important;
     scroll-behavior: smooth !important;
 }
 
-/* === BLOK UTAMA KONTEN === */
+/* 🧱 BLOK UTAMA */
 .main, .block-container {
     position: relative !important;
-    z-index: 2 !important; /* pastikan di atas background dekorasi */
+    z-index: 3 !important;
     max-width: 1200px !important;
     margin: 0 auto !important;
     padding: 30px 40px !important;
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
+    overflow: visible !important;
     box-sizing: border-box !important;
 }
 
-/* === EFEK HOLOGRAFIK === */
+/* 💫 EFEK HOLOGRAFIK (1 LAPIS SAJA) */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: absolute;
-    inset: 0;
+    position: fixed; /* ubah ke fixed biar stabil */
+    top: 0; left: 0; right: 0; bottom: 0;
     background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
                 radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
                 radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
     animation: glowFloat 20s ease-in-out infinite alternate;
-    z-index: 0;
+    z-index: -1; /* biar gak numpuk di depan */
 }
 @keyframes glowFloat {
     0% { transform: translateY(0px); opacity: 0.8; }
@@ -79,10 +78,10 @@ html, body {
     100% { transform: translateY(0px); opacity: 0.8; }
 }
 
-/* === IKON DEKORASI === */
+/* 💎 IKON DEKORASI */
 [data-testid="stAppViewContainer"]::after {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
@@ -94,7 +93,7 @@ html, body {
     background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%;
     opacity: 0.08;
     animation: floatIcons 30s linear infinite;
-    z-index: 0;
+    z-index: -1;
 }
 @keyframes floatIcons {
     0% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
@@ -102,7 +101,7 @@ html, body {
     100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
-/* === HEADER === */
+/* 🩰 HEADER */
 .header {
     display: flex;
     align-items: center;
@@ -116,7 +115,7 @@ html, body {
     margin-bottom: 25px;
     position: relative;
     overflow: hidden;
-    z-index: 2;
+    z-index: 5;
 }
 .header::after {
     content: "";
@@ -134,7 +133,7 @@ html, body {
     100% { transform: translateX(100%) skewX(-20deg); }
 }
 
-/* === TEKS JUDUL === */
+/* 🩷 TEKS JUDUL */
 .title-text {
     font-size: 36px;
     font-weight: 800;
@@ -144,7 +143,7 @@ html, body {
     text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
-/* === CARD KACA === */
+/* 🌫 CARD GLASS */
 .glass-card {
     background: rgba(255,255,255,0.78);
     border-radius: 20px;
@@ -153,46 +152,22 @@ html, body {
     box-shadow: 0 6px 22px rgba(100,0,0,0.15);
     backdrop-filter: blur(16px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 3;
 }
 .glass-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 30px rgba(120,0,0,0.25);
 }
 
-/* === FOOTER === */
-footer {
-    text-align: center;
-    color: #6a1a1a;
-    margin-top: 45px;
-    font-size: 14px;
-    opacity: 0.8;
-}
-
-/* === STATISTIK HOLOGRAM === */
-.stat-deco {
-    position: absolute;
-    top: 60px;
-    right: 50px;
-    opacity: 0.12;
-    width: 230px;
-    filter: drop-shadow(0 0 12px rgba(255,200,200,0.4));
-    animation: rotateHolo 18s linear infinite;
-}
-@keyframes rotateHolo {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* === SIDEBAR === */
+/* 📊 SIDEBAR */
 [data-testid="stSidebar"] {
     background: linear-gradient(145deg, #fff5f7 0%, #ffe0e6 35%, #f6ccd3 70%, #e8b6c3 100%) !important;
     color: #4a0f16 !important;
     backdrop-filter: blur(14px);
     border-right: 2px solid rgba(150, 0, 0, 0.1);
     box-shadow: 4px 0 20px rgba(150, 0, 0, 0.05);
+    z-index: 10 !important;
 }
-
-/* === TEKS & UPLOADER SIDEBAR === */
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 {
@@ -207,14 +182,6 @@ footer {
     border: 1px solid rgba(180,80,90,0.25) !important;
     box-shadow: 0 4px 10px rgba(160,50,50,0.1) !important;
 }
-[data-testid="stSidebar"] .stFileUploader label,
-[data-testid="stSidebar"] .stFileUploader div,
-[data-testid="stSidebar"] .stFileUploader p {
-    color: #2c0a0f !important;  
-    font-weight: 500 !important;
-}
-
-/* === TOMBOL SIDEBAR === */
 [data-testid="stSidebar"] button {
     background: linear-gradient(90deg, #b64b5a, #e7a2a9) !important;
     color: white !important;
@@ -229,16 +196,24 @@ footer {
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
 }
 
-/* === RUANG TAMBAHAN DI BAWAH UNTUK SCROLL === */
+/* ⚙️ RUANG TAMBAHAN */
 .block-container::after {
     content: "";
     display: block;
-    height: 250px;
+    height: 200px;
+}
+
+/* 🪶 FOOTER */
+footer {
+    text-align: center;
+    color: #6a1a1a;
+    margin-top: 45px;
+    font-size: 14px;
+    opacity: 0.8;
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================
 # HEADER
