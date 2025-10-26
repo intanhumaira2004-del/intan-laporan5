@@ -324,52 +324,35 @@ if uploaded_file:
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-elif mode == "Klasifikasi Gambar" and classifier:
-    st.write("Ukuran input model:", classifier.input_shape)
-    input_shape = classifier.input_shape[1:3]
-    img_resized = img.resize(input_shape)
-    img_array = image.img_to_array(img_resized)
+ # ================== MODE KLASIFIKASI ==================
+    elif mode == "Klasifikasi Gambar" and classifier:
+        st.write("Ukuran input model:", classifier.input_shape)
+        input_shape = classifier.input_shape[1:3]
+        img_resized = img.resize(input_shape)
+        img_array = image.img_to_array(img_resized)
 
-    # Hapus channel alpha jika ada (RGBA → RGB)
-    if img_array.shape[-1] == 4:
-        img_array = img_array[..., :3]
+        if img_array.shape[-1] == 4:
+            img_array = img_array[..., :3]
 
-    # Normalisasi dan ubah ke bentuk batch
-    img_array = np.expand_dims(img_array, axis=0) / 255.0
+        img_array = np.expand_dims(img_array, axis=0) / 255.0
 
-    # Label kelas sesuai urutan saat model dilatih
-    class_labels = [
-        "freshapples", "freshbanana", "freshoranges",
-        "rottenapples", "rottenbanana", "rottenoranges"
-    ]
+        class_labels = [
+            "freshapples", "freshbanana", "freshoranges",
+            "rottenapples", "rottenbanana", "rottenoranges"
+        ]
 
-    # Prediksi menggunakan model CNN
-    prediction = classifier.predict(img_array)
-    class_index = np.argmax(prediction)
-    conf = np.max(prediction)
-    predicted_label = class_labels[class_index]
+        prediction = classifier.predict(img_array)
+        class_index = np.argmax(prediction)
+        conf = np.max(prediction)
+        predicted_label = class_labels[class_index]
 
-    # Warna hasil berdasarkan kategori (fresh = hijau, rotten = merah)
-    if "fresh" in predicted_label:
-        st.markdown(
-            f"<div style='padding:15px;border-radius:10px;background-color:#e7fff1;"
-            f"border:2px solid #3ebd62;color:#156b37;font-weight:600;'>"
-            f"✅ Prediksi: {predicted_label} ({conf*100:.2f}%)</div>",
-            unsafe_allow_html=True
-        )
+        st.success(f"✅ Prediksi: {predicted_label} ({conf*100:.2f}%)")
+        
     else:
-        st.markdown(
-            f"<div style='padding:15px;border-radius:10px;background-color:#ffeaea;"
-            f"border:2px solid #c13b3b;color:#7a1414;font-weight:600;'>"
-            f"❌ Prediksi: {predicted_label} ({conf*100:.2f}%)</div>",
-            unsafe_allow_html=True
-        )
+        st.warning("⚠️ Model tidak ditemukan di folder Model/.")
 
 else:
-    st.warning("⚠️ Model tidak ditemukan di folder Model/.")
-    
-    else:
-        st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
+    st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
 
 # ==========================
