@@ -15,7 +15,6 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
-# ==========================
 # 🎨 FINAL CSS DASHBOARD TEMA MAROON-ORANGE STATISTIKA SEGAR 🍊📊
 # ==========================
 st.markdown("""
@@ -138,7 +137,6 @@ footer {
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================
 # HEADER
