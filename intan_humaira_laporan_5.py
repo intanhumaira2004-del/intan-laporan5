@@ -330,32 +330,45 @@ elif mode == "Klasifikasi Gambar" and classifier:
     img_resized = img.resize(input_shape)
     img_array = image.img_to_array(img_resized)
 
-    # Hapus channel alpha kalau ada (RGBA -> RGB)
+    # Hapus channel alpha jika ada (RGBA → RGB)
     if img_array.shape[-1] == 4:
         img_array = img_array[..., :3]
 
+    # Normalisasi dan ubah ke bentuk batch
     img_array = np.expand_dims(img_array, axis=0) / 255.0
 
-    # Label kelas sesuai urutan training model kamu
+    # Label kelas sesuai urutan saat model dilatih
     class_labels = [
         "freshapples", "freshbanana", "freshoranges",
         "rottenapples", "rottenbanana", "rottenoranges"
     ]
 
-    # Prediksi model CNN
+    # Prediksi menggunakan model CNN
     prediction = classifier.predict(img_array)
     class_index = np.argmax(prediction)
     conf = np.max(prediction)
-
-    # Ambil nama kelas berdasarkan indeks prediksi
     predicted_label = class_labels[class_index]
 
-    # Tampilkan hasil prediksi
-    st.success(f"✅ Prediksi: **{predicted_label}** ({conf*100:.2f}%)")
+    # Warna hasil berdasarkan kategori (fresh = hijau, rotten = merah)
+    if "fresh" in predicted_label:
+        st.markdown(
+            f"<div style='padding:15px;border-radius:10px;background-color:#e7fff1;"
+            f"border:2px solid #3ebd62;color:#156b37;font-weight:600;'>"
+            f"✅ Prediksi: {predicted_label} ({conf*100:.2f}%)</div>",
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            f"<div style='padding:15px;border-radius:10px;background-color:#ffeaea;"
+            f"border:2px solid #c13b3b;color:#7a1414;font-weight:600;'>"
+            f"❌ Prediksi: {predicted_label} ({conf*100:.2f}%)</div>",
+            unsafe_allow_html=True
+        )
 
 else:
     st.warning("⚠️ Model tidak ditemukan di folder Model/.")
-
+else:
+    st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
 
 # ==========================
