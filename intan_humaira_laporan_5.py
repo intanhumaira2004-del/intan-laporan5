@@ -20,15 +20,25 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
+/* ====================== FIX SCROLL & BACKGROUND ====================== */
+html, body, [data-testid="stAppViewContainer"], .block-container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    position: relative !important;
+}
+[data-testid="stAppViewContainer"]::before,
+[data-testid="stAppViewContainer"]::after {
+    height: auto !important;
+    pointer-events: none !important;
+}
+
+/* ====================== BACKGROUND GRADIENT MAROON HOLOGRAPHIC ====================== */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-attachment: fixed;
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
-    overflow-y: auto !important;
-    position: relative !important;
-    z-index: 0 !important;
 }
 @keyframes holoShift {
     0% { background-position: 0% 50%; }
@@ -36,7 +46,7 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* ====== LAPISAN EFEK HOLOGRAFIK ====== */
+/* ====================== LAPISAN EFEK HOLOGRAFIK ====================== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
@@ -53,7 +63,7 @@ st.markdown("""
     100% { transform: translateY(0px); opacity: 0.8; }
 }
 
-/* ====== LAPISAN IKON BUAH CERIA ====== */
+/* ====================== IKON BUAH ====================== */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
@@ -76,7 +86,7 @@ st.markdown("""
     100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
-/* ====== HEADER GAYA ELEGAN ====== */
+/* ====================== HEADER GAYA ELEGAN ====================== */
 .header {
     display: flex;
     align-items: center;
@@ -108,7 +118,7 @@ st.markdown("""
     100% { transform: translateX(100%) skewX(-20deg); }
 }
 
-/* ====== JUDUL TEKS GRADIENT NEON ====== */
+/* ====================== JUDUL TEKS GRADIENT NEON ====================== */
 .title-text {
     font-size: 36px;
     font-weight: 800;
@@ -118,7 +128,7 @@ st.markdown("""
     text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
-/* ====== KARTU KACA ====== */
+/* ====================== KARTU GAYA GLASS ====================== */
 .glass-card {
     background: rgba(255,255,255,0.78);
     border-radius: 20px;
@@ -133,7 +143,7 @@ st.markdown("""
     box-shadow: 0 12px 30px rgba(120,0,0,0.25);
 }
 
-/* ====== FOOTER ====== */
+/* ====================== FOOTER ====================== */
 footer {
     text-align: center;
     color: #6a1a1a;
@@ -142,7 +152,7 @@ footer {
     opacity: 0.8;
 }
 
-/* ====== EFEK STATISTIK HOLOGRAM ====== */
+/* ====================== DEKORASI STATISTIK ====================== */
 .stat-deco {
     position: absolute;
     top: 60px;
@@ -156,22 +166,10 @@ footer {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-/* ====== FIX: Biar Bisa Scroll Sampai Bawah ====== */
-[data-testid="stAppViewContainer"],
-[data-testid="stVerticalBlock"],
-.block-container {
-    overflow-y: auto !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    position: relative !important;
-}
 
-/* Kadang Streamlit pakai wrapper tambahan yang ngunci scroll */
-html, body {
-    overflow: auto !important;
-    height: auto !important;
 </style>
 """, unsafe_allow_html=True)
+
 
 # ==========================
 # HEADER
