@@ -19,7 +19,6 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
 st.markdown("""
 <style>
-
 /* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
