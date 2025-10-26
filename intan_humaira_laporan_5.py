@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""HoloVision Dashboard - Maroon Theme"""
+"""HoloVision Dashboard - Maroon Theme (Fixed but Original Content Kept)"""
 
 import streamlit as st
 from ultralytics import YOLO
@@ -8,7 +8,6 @@ from tensorflow.keras.preprocessing import image
 from PIL import Image
 import numpy as np
 import os
-import plotly.graph_objects as go
 
 # ==========================
 # KONFIGURASI DASAR
@@ -16,58 +15,24 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (SOFT ROSE GLOW THEME)
+# CSS STYLING (SOFT MAROON AURORA THEME)
 # ==========================
 st.markdown("""
 <style>
-/* 🌸 Background Utama — Maroon Aurora + Geometric + Grid */
 .stApp {
     background: linear-gradient(135deg, #f8dede, #f3cfcf, #e0b1b1, #b87b7b);
     background-size: 400% 400%;
     animation: gradientMove 25s ease infinite;
     position: relative;
-    overflow: hidden;
 }
 
-/* Efek aurora lembut yang bergerak */
 @keyframes gradientMove {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
-/* Tambahan layer pola */
-.stApp::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 1px, transparent 1px),
-        radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 1px, transparent 1px),
-        url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
-        url('https://www.transparenttextures.com/patterns/dot-grid.png');
-    background-size: 300px 300px, 400px 400px, auto, auto;
-    opacity: 0.15;
-    z-index: 0;
-}
-
-/* Tambahan desain geometrik lembut */
-.stApp::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: url('https://i.imgur.com/4aTjB6Y.png') center/cover no-repeat;
-    opacity: 0.07;
-    z-index: 0;
-}
-
-/* Kontainer utama transparan */
-.main {
-    position: relative;
-    z-index: 1;
-}
-
-/* Kartu kaca */
+/* Kartu kaca transparan */
 .glass-card {
     background: rgba(255, 255, 255, 0.7);
     border-radius: 20px;
@@ -90,12 +55,10 @@ h1 {
     box-shadow: 0 2px 15px rgba(0,0,0,0.05);
 }
 
-/* Judul bagian */
 h3 {
     color: #4b1c1c;
 }
 
-/* Footer */
 .footer {
     text-align: center;
     margin-top: 40px;
@@ -104,6 +67,7 @@ h3 {
 }
 </style>
 """, unsafe_allow_html=True)
+
 # ==========================
 # HEADER
 # ==========================
@@ -123,14 +87,10 @@ with col1:
         st.markdown("<div style='width:90px;height:90px;background:#a87b7b;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-    <div class="header">
-        <div class="title-text">HoloFruits Vision Dashboard</div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<h1>HoloFruits Vision Dashboard</h1>", unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET 📚
+# DESKRIPSI DATASET 📚 (TIDAK DIUBAH)
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -164,12 +124,16 @@ st.markdown("""
 # ==========================
 @st.cache_resource
 def load_models():
-    yolo_path = "Model/Intan Humaira_Laporan 4.pt"
-    keras_path = "Model/Intan Humaira_Laporan2.h5"
+    try:
+        yolo_path = "Model/Intan Humaira_Laporan 4.pt"
+        keras_path = "Model/Intan Humaira_Laporan2.h5"
 
-    yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
-    classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
-    return yolo_model, classifier
+        yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
+        classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
+        return yolo_model, classifier
+    except Exception as e:
+        st.error(f"❌ Gagal memuat model: {e}")
+        return None, None
 
 yolo_model, classifier = load_models()
 
@@ -214,7 +178,7 @@ else:
 # FOOTER
 # ==========================
 st.markdown("""
-<footer>
+<div class='footer'>
 © 2025 — HoloFruits Vision Dashboard | By Intan Humaira 💫
-</footer>
+</div>
 """, unsafe_allow_html=True)
