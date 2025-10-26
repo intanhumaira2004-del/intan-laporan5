@@ -14,18 +14,18 @@ import plotly.graph_objects as go
 # KONFIGURASI DASAR
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
-
 # ==========================
-# CSS STYLING DASHBOARD 🌈
+# CSS STYLING DASHBOARD MAROON STATISTIKA 🍒📊
 # ==========================
 st.markdown("""
 <style>
+
 /* ====== BACKGROUND GRADIENT MAROON LEMBUT ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff5f7 0%, #fbe9eb 45%, #f7dfe3 100%);
+    background: linear-gradient(135deg, #fff5f7 0%, #fae1e6 40%, #f5d3d9 80%);
     background-attachment: fixed;
-    background-size: 200% 200%;
-    animation: gradientShift 14s ease infinite;
+    background-size: 250% 250%;
+    animation: gradientShift 18s ease infinite;
     min-height: 100vh;
     position: relative;
     overflow: hidden;
@@ -36,100 +36,48 @@ st.markdown("""
     100% {background-position: 0% 50%;}
 }
 
-/* ====== ILUSTRASI LEMBUT DI BACKGROUND ====== */
-[data-testid="stAppViewContainer"]::before {
-    content: "";
-    position: absolute;
-    top: -60px;
-    left: -100px;
-    width: 700px;
-    height: 700px;
-    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
-    background-size: 300px;
-    opacity: 0.07;
-    transform: rotate(20deg);
-}
+/* ====== POLA TITIK HALUS (partikel data) ====== */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
-    bottom: -120px;
-    right: -120px;
-    width: 800px;
-    height: 800px;
-    background: url('https://cdn-icons-png.flaticon.com/512/1055/1055646.png') no-repeat;
-    background-size: 340px;
-    opacity: 0.08;
-    transform: rotate(-15deg);
-}
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: radial-gradient(rgba(100,0,0,0.05) 1px, transparent 1px);
-    background-size: 25px 25px;
+    inset: 0;
+    background-image: radial-gradient(rgba(120,0,0,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
     animation: moveDots 25s linear infinite;
+    z-index: 0;
 }
 @keyframes moveDots {
     0% {background-position: 0 0;}
     100% {background-position: 100px 100px;}
 }
+
+/* ====== LAPISAN IKON BANYAK: BUAH + STATISTIK ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
-    top: 100px;
-    left: 150px;
-    width: 300px;
-    height: 300px;
-    background: url('https://cdn-icons-png.flaticon.com/512/415/415733.png') no-repeat;
-    background-size: contain;
-    opacity: 0.05;
-    transform: rotate(-10deg);
-}
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    bottom: 80px;
-    right: 150px;
-    width: 280px;
-    height: 280px;
-    background: url('https://cdn-icons-png.flaticon.com/512/135/135620.png') no-repeat;
-    background-size: contain;
-    opacity: 0.05;
-    transform: rotate(10deg);
-}
-[data-testid="stAppViewContainer"]::before {
-    content: "";
-    position: absolute;
-    top: -40px;
-    left: -60px;
-    width: 750px;
-    height: 750px;
-    background: url('https://cdn-icons-png.flaticon.com/512/10367/10367066.png') no-repeat;
-    background-size: 280px;
-    opacity: 0.06;
-    transform: rotate(18deg);
-}
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    bottom: -100px;
-    right: -100px;
-    width: 900px;
-    height: 900px;
-    background: url('https://cdn-icons-png.flaticon.com/512/686/686589.png') no-repeat;
-    background-size: 340px;
+    inset: 0;
+    background-image:
+        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),   /* jeruk */
+        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),   /* pisang */
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'), /* grafik */
+        url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),   /* bar chart */
+        url('https://cdn-icons-png.flaticon.com/512/10367/10367066.png');/* jaringan data */
+
+    background-repeat: no-repeat;
+    background-size: 200px, 180px, 170px, 220px, 200px, 250px;
+    background-position:
+        5% 10%, 85% 15%, 10% 80%, 75% 65%, 50% 85%, 25% 40%;
     opacity: 0.07;
-    transform: rotate(-12deg);
+    transform: rotate(2deg);
+    z-index: 0;
 }
 
 /* ====== HEADER ====== */
 .header {
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: rgba(255,255,255,0.75);
     padding: 18px;
     border-radius: 20px;
@@ -148,13 +96,15 @@ st.markdown("""
     0%,100% {transform: translateY(0px);}
     50% {transform: translateY(-6px);}
 }
+
+/* ====== TEKS JUDUL ====== */
 .title-text {
     font-size: 34px;
     font-weight: 800;
-    background: linear-gradient(90deg,#7a1c1c,#b33b3b,#d65f5f);
+    background: linear-gradient(90deg,#7a1f1f,#b14a4a,#e88888);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(200,80,80,0.3);
+    text-shadow: 0 0 25px rgba(120,0,0,0.25);
 }
 
 /* ====== KARTU KACA (GLASS CARD) ====== */
@@ -165,17 +115,19 @@ st.markdown("""
     border: 1px solid rgba(200,150,150,0.3);
     box-shadow: 0 6px 22px rgba(120,0,0,0.1);
     backdrop-filter: blur(14px);
+    z-index: 2;
 }
 
 /* ====== FOOTER ====== */
 footer {
-    text-align:center;
-    color:#7a1c1c;
-    margin-top:40px;
-    font-size:14px;
+    text-align: center;
+    color: #7a1c1c;
+    margin-top: 40px;
+    font-size: 14px;
+    z-index: 2;
 }
 
-/* ====== DESAIN TAMBAHAN STATISTIK LEMBUT DI SUDUT ====== */
+/* ====== DESAIN TAMBAHAN STATISTIK DI SUDUT ====== */
 .stat-deco {
     position: absolute;
     top: 50px;
@@ -183,8 +135,10 @@ footer {
     opacity: 0.1;
     width: 220px;
 }
+
 </style>
 """, unsafe_allow_html=True)
+
 
 # ==========================
 # HEADER
