@@ -15,8 +15,6 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
-# CSS STYLING DASHBOARD 
-# ==========================
 st.markdown("""
 <style>
 
@@ -27,8 +25,7 @@ st.markdown("""
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
     overflow-x: hidden !important;
-    overflow-y: auto !important;
-    min-height: 100vh !important;
+    overflow-y: visible !important;
     position: relative !important;
     z-index: 1 !important;
 }
@@ -36,6 +33,21 @@ st.markdown("""
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+/* ====== FIX SCROLL TERPOTONG ====== */
+html, body, [data-testid="stAppViewContainer"], .main, section.main, .block-container {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+}
+section.main > div {
+    height: auto !important;
+    overflow: visible !important;
+}
+.block-container {
+    padding-bottom: 120px !important; /* ruang ekstra biar footer gak ketimpa */
 }
 
 /* ====== LAPISAN EFEK HOLOGRAFIK ====== */
@@ -207,21 +219,6 @@ footer {
 [data-testid="stSidebar"] button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
-}
-
-/* ====== FIX SCROLL TERPOTONG ====== */
-html, body, [data-testid="stAppViewContainer"], .main {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important;
-}
-
-section.main > div {
-    overflow-y: visible !important;
-}
-
-.block-container {
-    padding-bottom: 100px !important;
 }
 
 </style>
