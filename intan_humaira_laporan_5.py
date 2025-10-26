@@ -18,16 +18,20 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* === BACKGROUND GRADIENT MAROON HOLOGRAPHIC === */
+/* === BACKGROUND GRADIENT MAROON HOLOGRAPHIC (FIXED SIZE 1920x1080) === */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-attachment: fixed;
-    background-size: 300% 300%;
+    background-size: cover;
     animation: holoShift 16s ease infinite;
-    overflow: visible !important;
     position: relative !important;
-    height: auto;
-    min-height: 100vh !important;
+    width: 1920px !important;
+    height: 1080px !important;
+    margin: 0 auto !important;
+    border-radius: 20px !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     z-index: 0 !important;
 }
 @keyframes holoShift {
@@ -36,29 +40,34 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* === FIX SCROLL STREAMLIT === */
-html, body, [data-testid="stAppViewContainer"], .main, .block-container {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: visible !important;
-    overflow-x: hidden !important;
+/* === SAFE SCROLL FIX === */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: auto !important;
+    scroll-behavior: smooth !important;
 }
-html {
-    overflow-y: scroll !important;
-    scroll-behavior: smooth;
+.main, .block-container {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 1080px !important;
+    overflow: visible !important;
+    padding: 40px 80px !important;
+    box-sizing: border-box !important;
 }
 
-/* === DEKORASI HOLOGRAFIK === */
+/* === EFEK HOLOGRAFIK === */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
     background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
                 radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
                 radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
     animation: glowFloat 20s ease-in-out infinite alternate;
     z-index: 0;
-    pointer-events: none;
 }
 @keyframes glowFloat {
     0% { transform: translateY(0px); opacity: 0.8; }
@@ -66,10 +75,10 @@ html {
     100% { transform: translateY(0px); opacity: 0.8; }
 }
 
-/* === LAPISAN IKON === */
+/* === IKON DEKORASI === */
 [data-testid="stAppViewContainer"]::after {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
@@ -89,7 +98,7 @@ html {
     100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
-/* === HEADER ELEGAN === */
+/* === HEADER === */
 .header {
     display: flex;
     align-items: center;
@@ -216,74 +225,16 @@ footer {
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
 }
 
-/* === FIX AKHIR: PAKSA SCROLL CONTAINER STREAMLIT === */
-main, .main, .block-container {
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 100vh !important;
-}
-
-[data-testid="stAppViewContainer"] > section {
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    min-height: 100vh !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-/* === Tambahkan ruang bawah ekstra === */
+/* === RUANG TAMBAHAN BAWAH === */
 .block-container::after {
     content: "";
     display: block;
     height: 150px;
 }
 
-/* pastikan semua container bisa tumbuh dinamis */
-html, body {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    scroll-behavior: smooth !important;
-}
-
-/* kontainer utama Streamlit */
-[data-testid="stAppViewContainer"] {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    display: block !important;
-}
-
-/* kontainer utama tempat elemen muncul */
-main, .main, .block-container {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: visible !important;
-    padding-bottom: 150px !important; /* ruang ekstra bawah agar footer terlihat */
-}
-
-/* section internal */
-[data-testid="stAppViewContainer"] > section {
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-}
-
-/* perbaikan tambahan kalau masih ketarik ke atas */
-.block-container::after {
-    content: "";
-    display: block;
-    height: 150px; /* jarak aman bawah */
-}
-
 </style>
 """, unsafe_allow_html=True)
+
 
 
 # ==========================
