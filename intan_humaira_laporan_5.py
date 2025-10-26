@@ -26,7 +26,9 @@ st.markdown("""
     background-attachment: fixed;
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
+    min-height: 100vh !important;
     position: relative !important;
     z-index: 1 !important;
 }
