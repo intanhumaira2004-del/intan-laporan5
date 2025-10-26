@@ -210,7 +210,6 @@ html, body {
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
 }
 
-}
 </style>
 """, unsafe_allow_html=True)
 
