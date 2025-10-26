@@ -26,8 +26,9 @@ st.markdown("""
     background-attachment: fixed;
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
-    position: relative;
-    overflow-y: auto;
+    overflow-y: auto !important;
+    position: relative !important;
+    z-index: 0 !important;
 }
 @keyframes holoShift {
     0% { background-position: 0% 50%; }
@@ -277,6 +278,6 @@ else:
 # ==========================
 st.markdown("""
 <footer>
-© 2025 — HoloFruits Vision Dashboard | By Intan Humaira 💫
+© 2025 — HoloFruits Vision Dashboard | By Intan Humaira 
 </footer>
 """, unsafe_allow_html=True)
