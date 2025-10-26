@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""HoloVision Dashboard - Maroon Theme (Fixed but Original Content Kept)"""
+"""HoloVision Dashboard"""
 
 import streamlit as st
 from ultralytics import YOLO
@@ -8,62 +8,98 @@ from tensorflow.keras.preprocessing import image
 from PIL import Image
 import numpy as np
 import os
+import plotly.graph_objects as go
 
 # ==========================
 # KONFIGURASI DASAR
 # ==========================
-st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
+st.set_page_config(page_title=" HoloFruits Vision Dashboard", layout="wide")
 
 # ==========================
-# CSS STYLING (SOFT MAROON AURORA THEME)
+# CSS STYLING DASHBOARD 🌈
 # ==========================
 st.markdown("""
 <style>
-.stApp {
-    background: linear-gradient(135deg, #f8dede, #f3cfcf, #e0b1b1, #b87b7b);
-    background-size: 400% 400%;
-    animation: gradientMove 25s ease infinite;
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #e0f7ff 0%, #f8fcff 35%, #ffffff 100%);
+    background-attachment: fixed;
+    background-size: 200% 200%;
+    animation: gradientShift 12s ease infinite;
+    min-height: 100vh;
     position: relative;
+    overflow: hidden;
 }
-
-@keyframes gradientMove {
+@keyframes gradientShift {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
-
-/* Kartu kaca transparan */
-.glass-card {
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+[data-testid="stAppViewContainer"]::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    left: -120px;
+    width: 800px;
+    height: 800px;
+    background: url('https://cdn-icons-png.flaticon.com/512/6062/6062646.png') no-repeat;
+    background-size: 320px;
+    opacity: 0.08;
+    transform: rotate(25deg);
+}
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    right: -120px;
+    width: 900px;
+    height: 900px;
+    background: url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png') no-repeat;
+    background-size: 340px;
+    opacity: 0.09;
+    transform: rotate(-15deg);
+}
+.header {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: rgba(255,255,255,0.7);
+    padding: 18px;
+    border-radius: 18px;
+    box-shadow: 0 4px 25px rgba(0,150,255,0.2);
     backdrop-filter: blur(12px);
     margin-bottom: 25px;
 }
-
-/* Judul besar */
-h1 {
-    text-align: center;
-    font-size: 2.3em;
-    color: #541818;
+.header img {
+    width: 100px;
+    margin-right: 20px;
+    filter: drop-shadow(0 0 15px rgba(0,200,255,0.5));
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+    0%,100% {transform: translateY(0px);}
+    50% {transform: translateY(-6px);}
+}
+.title-text {
+    font-size: 34px;
     font-weight: 800;
-    background: rgba(255,255,255,0.65);
-    padding: 15px;
-    border-radius: 15px;
-    display: inline-block;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    background: linear-gradient(90deg,#00aaff,#00e1ff,#0088ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 25px rgba(0,180,255,0.4);
 }
-
-h3 {
-    color: #4b1c1c;
+.glass-card {
+    background: rgba(255,255,255,0.75);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid rgba(180,220,255,0.4);
+    box-shadow: 0 6px 20px rgba(0,100,200,0.15);
+    backdrop-filter: blur(12px);
 }
-
-.footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 0.9em;
-    color: #5e3a3a;
+footer {
+    text-align:center;
+    color:#0080b9;
+    margin-top:40px;
+    font-size:14px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -84,13 +120,17 @@ with col1:
     if logo_path:
         st.image(logo_path, use_container_width=True)
     else:
-        st.markdown("<div style='width:90px;height:90px;background:#a87b7b;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
+        st.markdown("<div style='width:90px;height:90px;background:#0b2149;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#9fd7ff;font-weight:700;'>USK</div>", unsafe_allow_html=True)
 
 with col2:
-    st.markdown("<h1>HoloFruits Vision Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("""
+    <div class="header">
+        <div class="title-text">Neura HoloLab 3D</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ==========================
-# DESKRIPSI DATASET 📚 (TIDAK DIUBAH)
+# DESKRIPSI DATASET 📚
 # ==========================
 st.markdown("""
 <div class="glass-card">
@@ -124,16 +164,12 @@ st.markdown("""
 # ==========================
 @st.cache_resource
 def load_models():
-    try:
-        yolo_path = "Model/Intan Humaira_Laporan 4.pt"
-        keras_path = "Model/Intan Humaira_Laporan2.h5"
+    yolo_path = "Model/Intan Humaira_Laporan 4.pt"
+    keras_path = "Model/Intan Humaira_Laporan2.h5"
 
-        yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
-        classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
-        return yolo_model, classifier
-    except Exception as e:
-        st.error(f"❌ Gagal memuat model: {e}")
-        return None, None
+    yolo_model = YOLO(yolo_path) if os.path.exists(yolo_path) else None
+    classifier = tf.keras.models.load_model(keras_path) if os.path.exists(keras_path) else None
+    return yolo_model, classifier
 
 yolo_model, classifier = load_models()
 
@@ -147,18 +183,25 @@ uploaded_file = st.sidebar.file_uploader("Unggah Gambar", type=["jpg", "jpeg", "
 # ==========================
 # KONTEN UTAMA
 # ==========================
-st.markdown("### 🌤️ Analisis Visual")
+st.markdown("### 🌤️ Analisis Visual Holografik")
 
 if uploaded_file:
     img = Image.open(uploaded_file).convert("RGB")
     st.image(img, caption="📸 Gambar yang Diupload", use_container_width=True)
 
+    # ==========================
+    # MODE DETEKSI YOLO
+    # ==========================
     if mode == "Deteksi Objek (YOLO)" and yolo_model:
         results = yolo_model(img)
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
+    # ==========================
+    # MODE KLASIFIKASI GAMBAR
+    # ==========================
     elif mode == "Klasifikasi Gambar" and classifier:
+        st.write("Ukuran input model:", classifier.input_shape)
         input_shape = classifier.input_shape[1:3]
         img_resized = img.resize(input_shape)
         img_array = image.img_to_array(img_resized)
@@ -169,6 +212,7 @@ if uploaded_file:
         class_index = np.argmax(prediction)
         conf = np.max(prediction)
         st.success(f"✅ Prediksi: **{class_index}** ({conf*100:.2f}%)")
+
     else:
         st.warning("⚠️ Model tidak ditemukan di folder Model/.")
 else:
@@ -178,7 +222,7 @@ else:
 # FOOTER
 # ==========================
 st.markdown("""
-<div class='footer'>
-© 2025 — HoloFruits Vision Dashboard | By Intan Humaira 💫
-</div>
+<footer>
+© 2025 — HoloFruits Vision Dashboard | Intan Humaira 💫
+</footer>
 """, unsafe_allow_html=True)
