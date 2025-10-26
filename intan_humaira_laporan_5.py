@@ -15,130 +15,149 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
-# CSS STYLING DASHBOARD MAROON STATISTIKA 🍒📊
+# CSS STYLING DASHBOARD 
 # ==========================
 st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT MAROON LEMBUT ====== */
+/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff5f7 0%, #fae1e6 40%, #f5d3d9 80%);
+    background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-attachment: fixed;
-    background-size: 250% 250%;
-    animation: gradientShift 18s ease infinite;
-    min-height: 100vh;
+    background-size: 300% 300%;
+    animation: holoShift 16s ease infinite;
     position: relative;
     overflow: hidden;
 }
-@keyframes gradientShift {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+@keyframes holoShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-/* ====== POLA TITIK HALUS (partikel data) ====== */
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(120,0,0,0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: moveDots 25s linear infinite;
-    z-index: 0;
-}
-@keyframes moveDots {
-    0% {background-position: 0 0;}
-    100% {background-position: 100px 100px;}
-}
-
-/* ====== LAPISAN IKON BANYAK: BUAH + STATISTIK ====== */
+/* ====== LAPISAN EFEK HOLOGRAFIK ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
     inset: 0;
-    background-image:
-        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
-        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),   /* jeruk */
-        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),   /* pisang */
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'), /* grafik */
-        url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),   /* bar chart */
-        url('https://cdn-icons-png.flaticon.com/512/10367/10367066.png');/* jaringan data */
-
-    background-repeat: no-repeat;
-    background-size: 200px, 180px, 170px, 220px, 200px, 250px;
-    background-position:
-        5% 10%, 85% 15%, 10% 80%, 75% 65%, 50% 85%, 25% 40%;
-    opacity: 0.07;
-    transform: rotate(2deg);
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
+                radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
+    animation: glowFloat 20s ease-in-out infinite alternate;
     z-index: 0;
 }
+@keyframes glowFloat {
+    0% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-15px); opacity: 0.6; }
+    100% { transform: translateY(0px); opacity: 0.8; }
+}
 
-/* ====== HEADER ====== */
+/* ====== LAPISAN IKON BUAH CERIA ====== */
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
+        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png');
+    background-repeat: no-repeat;
+    background-size: 160px, 140px, 150px, 180px;
+    background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%;
+    opacity: 0.08;
+    animation: floatIcons 30s linear infinite;
+    z-index: 0;
+}
+@keyframes floatIcons {
+    0% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
+    50% { background-position: 12% 18%, 78% 25%, 17% 82%, 68% 73%; }
+    100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
+}
+
+/* ====== HEADER GAYA ELEGAN ====== */
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.75);
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0 4px 25px rgba(128,0,0,0.2);
-    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.65);
+    padding: 20px;
+    border-radius: 22px;
+    border: 1px solid rgba(150,0,0,0.2);
+    box-shadow: 0 6px 25px rgba(100,0,0,0.15);
+    backdrop-filter: blur(16px);
     margin-bottom: 25px;
-    border: 1px solid rgba(180,100,100,0.2);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
 }
-.header img {
-    width: 95px;
-    margin-right: 20px;
-    filter: drop-shadow(0 0 12px rgba(150,0,0,0.4));
-    animation: float 4s ease-in-out infinite;
+.header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1));
+    transform: skewX(-20deg);
+    animation: lightSweep 6s linear infinite;
 }
-@keyframes float {
-    0%,100% {transform: translateY(0px);}
-    50% {transform: translateY(-6px);}
+@keyframes lightSweep {
+    0% { transform: translateX(-100%) skewX(-20deg); }
+    100% { transform: translateX(100%) skewX(-20deg); }
 }
 
-/* ====== TEKS JUDUL ====== */
+/* ====== JUDUL TEKS GRADIENT NEON ====== */
 .title-text {
-    font-size: 34px;
+    font-size: 36px;
     font-weight: 800;
-    background: linear-gradient(90deg,#7a1f1f,#b14a4a,#e88888);
+    background: linear-gradient(90deg, #7a1f1f, #d96b6b, #ffb6c1, #ffc6c9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(120,0,0,0.25);
+    text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
-/* ====== KARTU KACA (GLASS CARD) ====== */
+/* ====== KARTU KACA ====== */
 .glass-card {
-    background: rgba(255,255,255,0.8);
-    border-radius: 18px;
-    padding: 20px;
-    border: 1px solid rgba(200,150,150,0.3);
-    box-shadow: 0 6px 22px rgba(120,0,0,0.1);
-    backdrop-filter: blur(14px);
-    z-index: 2;
+    background: rgba(255,255,255,0.78);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(190,120,120,0.3);
+    box-shadow: 0 6px 22px rgba(100,0,0,0.15);
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(120,0,0,0.25);
 }
 
 /* ====== FOOTER ====== */
 footer {
     text-align: center;
-    color: #7a1c1c;
-    margin-top: 40px;
+    color: #6a1a1a;
+    margin-top: 45px;
     font-size: 14px;
-    z-index: 2;
+    opacity: 0.8;
 }
 
-/* ====== DESAIN TAMBAHAN STATISTIK DI SUDUT ====== */
+/* ====== EFEK STATISTIK HOLOGRAM ====== */
 .stat-deco {
     position: absolute;
-    top: 50px;
-    right: 40px;
-    opacity: 0.1;
-    width: 220px;
+    top: 60px;
+    right: 50px;
+    opacity: 0.12;
+    width: 230px;
+    filter: drop-shadow(0 0 12px rgba(255,200,200,0.4));
+    animation: rotateHolo 18s linear infinite;
+}
+@keyframes rotateHolo {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================
 # HEADER
