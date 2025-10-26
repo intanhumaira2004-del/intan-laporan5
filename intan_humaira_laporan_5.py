@@ -18,16 +18,16 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
+/* === BACKGROUND GRADIENT MAROON HOLOGRAPHIC === */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
     background-attachment: fixed;
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
+    overflow: visible !important;
     position: relative !important;
-    z-index: 1 !important;
+    min-height: 100vh !important;
+    z-index: 0 !important;
 }
 @keyframes holoShift {
     0% { background-position: 0% 50%; }
@@ -35,31 +35,29 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* ====== FIX SCROLL TERPOTONG ====== */
-html, body, [data-testid="stAppViewContainer"], .main, section.main, .block-container {
+/* === FIX SCROLL STREAMLIT === */
+html, body, [data-testid="stAppViewContainer"], .main, .block-container {
     height: auto !important;
     min-height: 100vh !important;
     overflow-y: visible !important;
     overflow-x: hidden !important;
 }
-section.main > div {
-    height: auto !important;
-    overflow: visible !important;
-}
-.block-container {
-    padding-bottom: 120px !important; /* ruang ekstra biar footer gak ketimpa */
+html {
+    overflow-y: scroll !important;
+    scroll-behavior: smooth;
 }
 
-/* ====== LAPISAN EFEK HOLOGRAFIK ====== */
+/* === DEKORASI HOLOGRAFIK === */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
                 radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
                 radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
     animation: glowFloat 20s ease-in-out infinite alternate;
     z-index: 0;
+    pointer-events: none;
 }
 @keyframes glowFloat {
     0% { transform: translateY(0px); opacity: 0.8; }
@@ -67,10 +65,10 @@ section.main > div {
     100% { transform: translateY(0px); opacity: 0.8; }
 }
 
-/* ====== LAPISAN IKON BUAH CERIA ====== */
+/* === LAPISAN IKON === */
 [data-testid="stAppViewContainer"]::after {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
@@ -90,7 +88,7 @@ section.main > div {
     100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
-/* ====== HEADER GAYA ELEGAN ====== */
+/* === HEADER ELEGAN === */
 .header {
     display: flex;
     align-items: center;
@@ -122,7 +120,7 @@ section.main > div {
     100% { transform: translateX(100%) skewX(-20deg); }
 }
 
-/* ====== JUDUL TEKS GRADIENT NEON ====== */
+/* === TEKS JUDUL === */
 .title-text {
     font-size: 36px;
     font-weight: 800;
@@ -132,7 +130,7 @@ section.main > div {
     text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
-/* ====== KARTU KACA ====== */
+/* === CARD KACA === */
 .glass-card {
     background: rgba(255,255,255,0.78);
     border-radius: 20px;
@@ -147,7 +145,7 @@ section.main > div {
     box-shadow: 0 12px 30px rgba(120,0,0,0.25);
 }
 
-/* ====== FOOTER ====== */
+/* === FOOTER === */
 footer {
     text-align: center;
     color: #6a1a1a;
@@ -156,7 +154,7 @@ footer {
     opacity: 0.8;
 }
 
-/* ====== EFEK STATISTIK HOLOGRAM ====== */
+/* === STATISTIK HOLOGRAM === */
 .stat-deco {
     position: absolute;
     top: 60px;
@@ -171,7 +169,7 @@ footer {
     to { transform: rotate(360deg); }
 }
 
-/* ====== SIDEBAR ====== */
+/* === SIDEBAR === */
 [data-testid="stSidebar"] {
     background: linear-gradient(145deg, #fff5f7 0%, #ffe0e6 35%, #f6ccd3 70%, #e8b6c3 100%) !important;
     color: #4a0f16 !important;
@@ -180,15 +178,13 @@ footer {
     box-shadow: 4px 0 20px rgba(150, 0, 0, 0.05);
 }
 
-/* Judul sidebar */
+/* === TEKS & UPLOADER SIDEBAR === */
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 {
     color: #7a1f1f !important;
     font-weight: 700 !important;
 }
-
-/* Card upload & selectbox di sidebar */
 [data-testid="stSidebar"] .stSelectbox,
 [data-testid="stSidebar"] .stFileUploader {
     background: rgba(255,255,255,0.75) !important;
@@ -197,8 +193,6 @@ footer {
     border: 1px solid rgba(180,80,90,0.25) !important;
     box-shadow: 0 4px 10px rgba(160,50,50,0.1) !important;
 }
-
-/* Teks di area upload */
 [data-testid="stSidebar"] .stFileUploader label,
 [data-testid="stSidebar"] .stFileUploader div,
 [data-testid="stSidebar"] .stFileUploader p {
@@ -206,7 +200,7 @@ footer {
     font-weight: 500 !important;
 }
 
-/* Tombol “Browse files” */
+/* === TOMBOL SIDEBAR === */
 [data-testid="stSidebar"] button {
     background: linear-gradient(90deg, #b64b5a, #e7a2a9) !important;
     color: white !important;
@@ -219,6 +213,13 @@ footer {
 [data-testid="stSidebar"] button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
+}
+
+/* === RUANG TAMBAHAN DI BAWAH SUPAYA SCROLL BISA SAMPAI AKHIR === */
+.block-container::after {
+    content: "";
+    display: block;
+    height: 120px;
 }
 
 </style>
