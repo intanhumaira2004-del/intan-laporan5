@@ -18,14 +18,14 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT MAROON STATISTIKA ====== */
+/* 🌸 LATAR BELAKANG GRADIENT + MOTIF DATA BUAH */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff5f7 0%, #fae1e6 40%, #f5d3d9 80%);
+    background: linear-gradient(135deg, #fff6f8 0%, #fae3e7 40%, #f8dce1 80%);
     background-attachment: fixed;
-    background-size: 250% 250%;
+    background-size: 300% 300%;
     animation: gradientShift 18s ease infinite;
     min-height: 100vh;
-    overflow: visible !important; /* FIX SCROLL BUG */
+    overflow: visible !important;
     position: relative;
 }
 @keyframes gradientShift {
@@ -34,63 +34,62 @@ st.markdown("""
     100% {background-position: 0% 50%;}
 }
 
-/* ====== TITIK DATA HALUS ====== */
+/* 🍓 MOTIF TITIK HALUS STATISTIKA */
 [data-testid="stAppViewContainer"]::after {
     content: "";
-    position: fixed; /* FIX: dari absolute -> fixed biar gak potong scroll */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(rgba(120,0,0,0.05) 1px, transparent 1px);
-    background-size: 35px 35px;
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(rgba(180,50,50,0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
     animation: moveDots 25s linear infinite;
     z-index: 0;
     pointer-events: none;
 }
 @keyframes moveDots {
     0% {background-position: 0 0;}
-    100% {background-position: 100px 100px;}
+    100% {background-position: 120px 120px;}
 }
 
-/* ====== IKON STATISTIKA DI LATAR ====== */
+/* 🍌 IKON DEKORASI: GRAFIK + BUAH */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: fixed; /* FIX: biar latar tetap di belakang tapi gak ganggu scroll */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: fixed;
+    inset: 0;
     background-image:
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'),
-        url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),
-        url('https://cdn-icons-png.flaticon.com/512/10367/10367066.png'),
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149686.png');
+        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),   /* jeruk */
+        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),   /* pisang */
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'), /* grafik */
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149686.png'); /* chart data */
     background-repeat: no-repeat;
-    background-size: 250px, 220px, 240px, 260px;
-    background-position: 10% 20%, 85% 75%, 45% 85%, 75% 20%;
-    opacity: 0.07;
-    transform: rotate(2deg);
+    background-size: 140px, 120px, 110px, 150px, 160px;
+    background-position:
+        8% 20%,  /* apel kiri atas */
+        85% 25%, /* jeruk kanan atas */
+        12% 85%, /* pisang kiri bawah */
+        80% 70%, /* grafik kanan tengah */
+        45% 90%; /* chart bawah tengah */
+    opacity: 0.08;
     z-index: 0;
     pointer-events: none;
 }
 
-/* ====== BATAS UKURAN DASHBOARD ====== */
+/* 📊 BATAS LEBAR DASHBOARD */
 [data-testid="stVerticalBlock"] {
-    max-width: 1200px;
+    max-width: 1080px;
     margin: auto;
     padding: 1.5rem;
-    z-index: 2;
     position: relative;
+    z-index: 2;
 }
 
-/* ====== HEADER ====== */
+/* 💫 HEADER */
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.7);
-    padding: 20px;
+    background: rgba(255,255,255,0.75);
+    padding: 18px;
     border-radius: 20px;
     box-shadow: 0 4px 25px rgba(128,0,0,0.2);
     backdrop-filter: blur(12px);
@@ -99,17 +98,17 @@ st.markdown("""
     z-index: 2;
 }
 .header img {
-    width: 110px;
+    width: 120px;
     margin-right: 25px;
-    filter: drop-shadow(0 0 12px rgba(150,0,0,0.4));
-    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(150,0,0,0.4));
+    animation: float 5s ease-in-out infinite;
 }
 @keyframes float {
     0%,100% {transform: translateY(0px);}
     50% {transform: translateY(-6px);}
 }
 
-/* ====== JUDUL BERDENYUT DAN MELAYANG ====== */
+/* ✨ JUDUL BERGERAK LEMBUT */
 .title-text {
     font-size: 36px;
     font-weight: 800;
@@ -117,25 +116,19 @@ st.markdown("""
     background: linear-gradient(90deg,#7a1f1f,#b14a4a,#e88888);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px rgba(120,0,0,0.25);
+    text-shadow: 0 0 15px rgba(120,0,0,0.25);
     animation: glowText 6s ease-in-out infinite, titleFloat 8s ease-in-out infinite;
 }
 @keyframes glowText {
-    0%,100% {
-        text-shadow: 0 0 10px rgba(180,50,50,0.4), 0 0 20px rgba(180,50,50,0.2);
-        transform: scale(1);
-    }
-    50% {
-        text-shadow: 0 0 25px rgba(220,70,70,0.6), 0 0 35px rgba(240,120,120,0.3);
-        transform: scale(1.03);
-    }
+    0%,100% {text-shadow: 0 0 10px rgba(180,50,50,0.4);}
+    50% {text-shadow: 0 0 25px rgba(220,70,70,0.6);}
 }
 @keyframes titleFloat {
     0%,100% {transform: translateY(0);}
     50% {transform: translateY(-4px);}
 }
 
-/* ====== KARTU KACA ====== */
+/* 💎 KARTU KACA */
 .glass-card {
     background: rgba(255,255,255,0.85);
     border-radius: 18px;
@@ -146,14 +139,14 @@ st.markdown("""
     z-index: 2;
 }
 
-/* ====== SIDEBAR ====== */
+/* 🎨 SIDEBAR */
 [data-testid="stSidebar"] {
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
     border-right: 1px solid rgba(160,80,80,0.15);
 }
 
-/* ====== FOOTER ====== */
+/* 🌷 FOOTER */
 footer {
     text-align: center;
     color: #7a1c1c;
@@ -163,9 +156,13 @@ footer {
     z-index: 2;
 }
 
+/* 🧭 SCROLL HALUS */
+html {
+    scroll-behavior: smooth;
+}
+
 </style>
 """, unsafe_allow_html=True)
-
 
 # ==========================
 # HEADER
