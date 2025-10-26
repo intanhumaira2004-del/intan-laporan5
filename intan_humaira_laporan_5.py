@@ -21,11 +21,11 @@ st.markdown("""
 /* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
 [data-testid="stAppViewContainer"] {
     background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
-    background-attachment: fixed;
     background-size: 300% 300%;
     animation: holoShift 16s ease infinite;
-    overflow-y: auto !important;
+    background-attachment: scroll !important; /* FIXED: biar scroll lancar */
     overflow-x: hidden !important;
+    overflow-y: auto !important;
     position: relative !important;
     min-height: 100vh !important;
     display: flex;
@@ -39,7 +39,7 @@ st.markdown("""
     100% { background-position: 0% 50%; }
 }
 
-/* === GLOBAL FIX: SCROLL DAN RUANG === */
+/* === GLOBAL FIX: SCROLL DAN LAYOUT === */
 html, body {
     margin: 0 !important;
     padding: 0 !important;
@@ -49,12 +49,16 @@ html, body {
     overflow-y: auto !important;
     scroll-behavior: smooth !important;
 }
+
+/* === BLOK UTAMA KONTEN === */
 .main, .block-container {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow: visible !important;
-    padding: 40px 80px !important;
+    position: relative !important;
+    z-index: 2 !important; /* pastikan di atas background dekorasi */
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 30px 40px !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
     box-sizing: border-box !important;
 }
 
@@ -229,7 +233,7 @@ footer {
 .block-container::after {
     content: "";
     display: block;
-    height: 200px;
+    height: 250px;
 }
 
 </style>
