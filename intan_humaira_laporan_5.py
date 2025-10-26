@@ -15,139 +15,145 @@ import plotly.graph_objects as go
 # ==========================
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
+# CSS STYLING DASHBOARD 
+# ==========================
 st.markdown("""
 <style>
 
-/* 🌈 Background utama dengan efek gerak halus */
+/* ====== BACKGROUND GRADIENT: MAROON x HOLOGRAPHIC ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #fff5f7, #ffeef1, #fbe7ea, #ffeef5);
+    background: linear-gradient(125deg, #fff6f9 0%, #ffe9ef 30%, #f6d4da 60%, #e0b7c6 100%);
+    background-attachment: fixed;
     background-size: 300% 300%;
-    animation: gradientMove 18s ease-in-out infinite;
-    overflow-y: auto !important;
+    animation: holoShift 16s ease infinite;
+    position: relative;
+    overflow: hidden;
 }
-
-/* ✨ Animasi pergeseran warna */
-@keyframes gradientMove {
+@keyframes holoShift {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* 🍓 Pola lembut titik-titik */
-[data-testid="stAppViewContainer"]::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-image: radial-gradient(rgba(255, 100, 130, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 0;
-}
-
-/* 🍊 Ikon kecil buah dan grafik yang bergerak pelan */
+/* ====== LAPISAN EFEK HOLOGRAFIK ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
-    position: fixed;
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.35), transparent 60%),
+                radial-gradient(circle at 70% 40%, rgba(255,182,193,0.25), transparent 60%),
+                radial-gradient(circle at 50% 90%, rgba(255,192,203,0.3), transparent 70%);
+    animation: glowFloat 20s ease-in-out infinite alternate;
+    z-index: 0;
+}
+@keyframes glowFloat {
+    0% { transform: translateY(0px); opacity: 0.8; }
+    50% { transform: translateY(-15px); opacity: 0.6; }
+    100% { transform: translateY(0px); opacity: 0.8; }
+}
+
+/* ====== LAPISAN IKON BUAH CERIA ====== */
+[data-testid="stAppViewContainer"]::after {
+    content: "";
+    position: absolute;
     inset: 0;
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'),
-        url('https://cdn-icons-png.flaticon.com/512/135/135620.png');
+        url('https://cdn-icons-png.flaticon.com/512/766/766514.png'),
+        url('https://cdn-icons-png.flaticon.com/512/135/135620.png'),
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png');
     background-repeat: no-repeat;
-    background-size: 70px, 80px, 90px;
-    background-position: 5% 10%, 90% 60%, 50% 90%;
+    background-size: 160px, 140px, 150px, 180px;
+    background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%;
     opacity: 0.08;
-    animation: floatIcons 25s linear infinite;
-    pointer-events: none;
+    animation: floatIcons 30s linear infinite;
     z-index: 0;
 }
-
-/* 🍉 Animasi lembut untuk ikon latar */
 @keyframes floatIcons {
-    0% { background-position: 5% 10%, 90% 60%, 50% 90%; }
-    50% { background-position: 7% 15%, 88% 55%, 48% 92%; }
-    100% { background-position: 5% 10%, 90% 60%, 50% 90%; }
+    0% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
+    50% { background-position: 12% 18%, 78% 25%, 17% 82%, 68% 73%; }
+    100% { background-position: 10% 15%, 80% 20%, 15% 80%, 70% 70%; }
 }
 
-/* 📏 Batas lebar dashboard */
-[data-testid="stVerticalBlock"] {
-    max-width: 1050px;
-    margin: auto;
-    padding: 1rem 2rem;
-    position: relative;
-    z-index: 2;
-}
-
-/* 🪞 Header dan logo */
+/* ====== HEADER GAYA ELEGAN ====== */
 .header {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.8);
-    padding: 20px 30px;
+    background: rgba(255,255,255,0.65);
+    padding: 20px;
     border-radius: 22px;
-    box-shadow: 0 4px 25px rgba(150,0,0,0.1);
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(150,0,0,0.2);
+    box-shadow: 0 6px 25px rgba(100,0,0,0.15);
+    backdrop-filter: blur(16px);
     margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
     z-index: 2;
 }
-.header img {
-    width: 220px; /* ✅ Diperbesar dari sebelumnya */
-    margin-right: 25px;
-    filter: drop-shadow(0 0 8px rgba(120,0,0,0.25));
-    transition: transform 0.3s ease-in-out;
+.header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.2), transparent, rgba(255,255,255,0.1));
+    transform: skewX(-20deg);
+    animation: lightSweep 6s linear infinite;
 }
-.header img:hover {
-    transform: scale(1.05); /* ✨ Efek hover lembut */
+@keyframes lightSweep {
+    0% { transform: translateX(-100%) skewX(-20deg); }
+    100% { transform: translateX(100%) skewX(-20deg); }
 }
 
-/* 🩷 Judul dashboard dengan efek gerak & glow */
+/* ====== JUDUL TEKS GRADIENT NEON ====== */
 .title-text {
     font-size: 36px;
     font-weight: 800;
-    text-align: center;
-    background: linear-gradient(90deg,#8b1e1e,#c94b4b,#f28f8f);
+    background: linear-gradient(90deg, #7a1f1f, #d96b6b, #ffb6c1, #ffc6c9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: glowText 6s ease-in-out infinite, floatTitle 4s ease-in-out infinite;
-}
-@keyframes glowText {
-    0%,100% { text-shadow: 0 0 10px rgba(180,50,50,0.3); }
-    50% { text-shadow: 0 0 25px rgba(220,70,70,0.6); }
-}
-@keyframes floatTitle {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    text-shadow: 0 0 25px rgba(255,150,150,0.25);
 }
 
-/* 🍋 Kartu konten */
+/* ====== KARTU KACA ====== */
 .glass-card {
-    background: rgba(255,255,255,0.85);
-    border-radius: 18px;
-    padding: 22px;
-    border: 1px solid rgba(200,150,150,0.3);
-    box-shadow: 0 4px 18px rgba(120,0,0,0.1);
-    backdrop-filter: blur(14px);
-    z-index: 2;
+    background: rgba(255,255,255,0.78);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(190,120,120,0.3);
+    box-shadow: 0 6px 22px rgba(100,0,0,0.15);
+    backdrop-filter: blur(16px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(120,0,0,0.25);
 }
 
-/* 🍍 Sidebar */
-[data-testid="stSidebar"] {
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(8px);
-    border-right: 1px solid rgba(160,80,80,0.15);
-}
-
-/* 📊 Footer */
+/* ====== FOOTER ====== */
 footer {
     text-align: center;
-    color: #7a1c1c;
-    margin-top: 40px;
+    color: #6a1a1a;
+    margin-top: 45px;
     font-size: 14px;
-    font-weight: 500;
+    opacity: 0.8;
 }
 
-html {
-    scroll-behavior: smooth;
+/* ====== EFEK STATISTIK HOLOGRAM ====== */
+.stat-deco {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    opacity: 0.12;
+    width: 230px;
+    filter: drop-shadow(0 0 12px rgba(255,200,200,0.4));
+    animation: rotateHolo 18s linear infinite;
+}
+@keyframes rotateHolo {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 </style>
