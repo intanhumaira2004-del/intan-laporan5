@@ -19,14 +19,15 @@ st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 <style>
 
 /* ====== BACKGROUND MAROON KALEM BERGERAK ====== */
- [data-testid="stAppViewContainer"] {
-        background: linear-gradient(125deg, #fafff8 0%, #f1e1e3 40%, #e6ccd0 80%);
-        background-attachment: fixed;
-        background-size: 300% 300%;
-        animation: holoShift 16s ease infinite;
-        overflow-y: auto !important;
-        position: relative !important;
-        z-index: 0 !important;
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(125deg, #fafff8 0%, #f1e1e3 40%, #e6ccd0 80%);
+    background-attachment: fixed;
+    background-size: 300% 300%;
+    animation: holoShift 16s ease infinite;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+    z-index: 0 !important;
 }
 @keyframes gradientFlow {
     0% {background-position: 0% 50%;}
