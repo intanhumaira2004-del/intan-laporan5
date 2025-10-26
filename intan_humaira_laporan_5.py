@@ -367,8 +367,9 @@ elif mode == "Klasifikasi Gambar" and classifier:
 
 else:
     st.warning("⚠️ Model tidak ditemukan di folder Model/.")
-else:
-    st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
+    
+    else:
+        st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
 
 
 # ==========================
