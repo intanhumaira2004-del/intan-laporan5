@@ -167,31 +167,41 @@ footer {
     to { transform: rotate(360deg); }
 }
 
-/* ====== STYLE FILE UPLOADER BIAR SERAGAM ====== */
+/* ======== SIDEBAR WARNA ======== */
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #fdf3f5 0%, #fde7ea 100%) !important;
+    color: #7a1f1f !important;
+}
+
+/* ======== HEADER DALAM SIDEBAR ======== */
+[data-testid="stSidebar"] h2, 
+[data-testid="stSidebar"] h3, 
+[data-testid="stSidebar"] label, 
+[data-testid="stSidebar"] p {
+    color: #5e1a1a !important;
+}
+
+/* ======== FILE UPLOADER - SESUAI DASHBOARD ======== */
 [data-testid="stFileUploader"] {
-    background: rgba(255, 240, 243, 0.8) !important;
-    border: 2px dashed rgba(180, 60, 80, 0.4) !important;
+    background: rgba(255, 240, 243, 0.85) !important;
+    border: 2px dashed rgba(180, 60, 80, 0.35) !important;
     border-radius: 16px !important;
     padding: 20px !important;
-    color: #7a1f1f !important;
-    box-shadow: 0 6px 15px rgba(100, 0, 0, 0.08);
-    transition: all 0.3s ease-in-out;
-    backdrop-filter: blur(12px);
+    box-shadow: 0 6px 15px rgba(120, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
 }
 [data-testid="stFileUploader"]:hover {
     background: rgba(255, 230, 235, 0.95) !important;
     border-color: rgba(180, 60, 80, 0.7) !important;
-    box-shadow: 0 8px 20px rgba(120, 0, 0, 0.15);
 }
 
-/* ====== Tombol Browse ====== */
+/* ======== TOMBOL BROWSE ======== */
 [data-testid="stFileUploader"] button {
-    background: linear-gradient(90deg, #a94252, #e27b88, #ffb6c1) !important;
+    background: linear-gradient(90deg, #b44c59, #de8a96, #ffd3da) !important;
     color: white !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 8px 20px !important;
     font-weight: 600 !important;
+    border-radius: 10px !important;
+    border: none !important;
     transition: all 0.3s ease-in-out;
 }
 [data-testid="stFileUploader"] button:hover {
@@ -199,10 +209,21 @@ footer {
     transform: scale(1.05);
 }
 
-/* ====== Teks kecil di uploader ====== */
+/* ======== TULISAN DALAM UPLOADER ======== */
 [data-testid="stFileUploader"] p {
     color: #7a1f1f !important;
     font-weight: 500 !important;
+}
+
+/* ======== DROPDOWN & INPUT DALAM SIDEBAR ======== */
+[data-baseweb="select"], [data-baseweb="input"] {
+    background-color: #fff7f9 !important;
+    color: #5e1a1a !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(200, 80, 100, 0.4) !important;
+}
+[data-baseweb="select"]:hover, [data-baseweb="input"]:hover {
+    border-color: rgba(200, 80, 100, 0.7) !important;
 }
 
 </style>
