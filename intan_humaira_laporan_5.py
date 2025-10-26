@@ -158,11 +158,8 @@ footer {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
-html, body {
-    height: auto !important;
-    overflow-y: visible !important;
-}
 
+/* ====== SIDEBAR ====== */
 [data-testid="stSidebar"] {
     background: linear-gradient(145deg, #fff5f7 0%, #ffe0e6 35%, #f6ccd3 70%, #e8b6c3 100%) !important;
     color: #4a0f16 !important;
@@ -171,7 +168,7 @@ html, body {
     box-shadow: 4px 0 20px rgba(150, 0, 0, 0.05);
 }
 
-/* Judul sidebar (ikon + teks “Mode Analisis”) */
+/* Judul sidebar */
 [data-testid="stSidebar"] h1,
 [data-testid="stSidebar"] h2,
 [data-testid="stSidebar"] h3 {
@@ -189,7 +186,7 @@ html, body {
     box-shadow: 0 4px 10px rgba(160,50,50,0.1) !important;
 }
 
-/* Pastikan teks di area upload tetap jelas */
+/* Teks di area upload */
 [data-testid="stSidebar"] .stFileUploader label,
 [data-testid="stSidebar"] .stFileUploader div,
 [data-testid="stSidebar"] .stFileUploader p {
@@ -212,8 +209,24 @@ html, body {
     box-shadow: 0 6px 14px rgba(160, 60, 70, 0.3) !important;
 }
 
+/* ====== FIX SCROLL TERPOTONG ====== */
+html, body, [data-testid="stAppViewContainer"], .main {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+}
+
+section.main > div {
+    overflow-y: visible !important;
+}
+
+.block-container {
+    padding-bottom: 100px !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
 
 # ==========================
 # HEADER
