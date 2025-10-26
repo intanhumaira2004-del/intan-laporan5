@@ -325,22 +325,38 @@ if uploaded_file:
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
     elif mode == "Klasifikasi Gambar" and classifier:
-        st.write("Ukuran input model:", classifier.input_shape)
-        input_shape = classifier.input_shape[1:3]
-        img_resized = img.resize(input_shape)
-        img_array = image.img_to_array(img_resized)
-        if img_array.shape[-1] == 4:
-            img_array = img_array[..., :3]
-        img_array = np.expand_dims(img_array, axis=0) / 255.0
-        prediction = classifier.predict(img_array)
-        class_index = np.argmax(prediction)
-        conf = np.max(prediction)
-        st.success(f"✅ Prediksi: **{class_index}** ({conf*100:.2f}%)")
+    st.write("Ukuran input model:", classifier.input_shape)
+    input_shape = classifier.input_shape[1:3]
+    img_resized = img.resize(input_shape)
+    img_array = image.img_to_array(img_resized)
 
-    else:
-        st.warning("⚠️ Model tidak ditemukan di folder Model/.")
+    # Hapus channel alpha kalau ada (RGBA -> RGB)
+    if img_array.shape[-1] == 4:
+        img_array = img_array[..., :3]
+
+    # Normalisasi dan ubah jadi batch
+    img_array = np.expand_dims(img_array, axis=0) / 255.0
+
+    # Label kelas sesuai urutan training model kamu
+    class_labels = [
+        "freshapples", "freshbanana", "freshoranges",
+        "rottenapples", "rottenbanana", "rottenoranges"
+    ]
+
+    # Prediksi model CNN
+    prediction = classifier.predict(img_array)
+    class_index = np.argmax(prediction)
+    conf = np.max(prediction)
+
+    # Ambil nama kelas berdasarkan indeks prediksi
+    predicted_label = class_labels[class_index]
+
+    # Tampilkan hasil prediksi
+    st.success(f"✅ Prediksi: **{predicted_label}** ({conf*100:.2f}%)")
+
 else:
-    st.info("🖼️ Silakan unggah gambar terlebih dahulu.")
+    st.warning("⚠️ Model tidak ditemukan di folder Model/.")
+
 
 # ==========================
 # FOOTER
