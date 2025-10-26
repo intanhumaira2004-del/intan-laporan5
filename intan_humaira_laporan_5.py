@@ -26,6 +26,7 @@ st.markdown("""
     animation: holoShift 16s ease infinite;
     overflow: visible !important;
     position: relative !important;
+    height: auto;
     min-height: 100vh !important;
     z-index: 0 !important;
 }
@@ -225,7 +226,7 @@ main, .main, .block-container {
 [data-testid="stAppViewContainer"] > section {
     overflow-y: auto !important;
     overflow-x: hidden !important;
-    height: 100vh !important;
+    min-height: 100vh !important;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
