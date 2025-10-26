@@ -324,7 +324,7 @@ if uploaded_file:
         plotted = results[0].plot()
         st.image(plotted, caption="✨ Hasil Deteksi", use_container_width=True)
 
-    elif mode == "Klasifikasi Gambar" and classifier:
+elif mode == "Klasifikasi Gambar" and classifier:
     st.write("Ukuran input model:", classifier.input_shape)
     input_shape = classifier.input_shape[1:3]
     img_resized = img.resize(input_shape)
@@ -334,7 +334,6 @@ if uploaded_file:
     if img_array.shape[-1] == 4:
         img_array = img_array[..., :3]
 
-    # Normalisasi dan ubah jadi batch
     img_array = np.expand_dims(img_array, axis=0) / 255.0
 
     # Label kelas sesuai urutan training model kamu
@@ -356,6 +355,7 @@ if uploaded_file:
 
 else:
     st.warning("⚠️ Model tidak ditemukan di folder Model/.")
+
 
 
 # ==========================
