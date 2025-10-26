@@ -239,6 +239,49 @@ main, .main, .block-container {
     height: 150px;
 }
 
+/* pastikan semua container bisa tumbuh dinamis */
+html, body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scroll-behavior: smooth !important;
+}
+
+/* kontainer utama Streamlit */
+[data-testid="stAppViewContainer"] {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+}
+
+/* kontainer utama tempat elemen muncul */
+main, .main, .block-container {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: visible !important;
+    padding-bottom: 150px !important; /* ruang ekstra bawah agar footer terlihat */
+}
+
+/* section internal */
+[data-testid="stAppViewContainer"] > section {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+}
+
+/* perbaikan tambahan kalau masih ketarik ke atas */
+.block-container::after {
+    content: "";
+    display: block;
+    height: 150px; /* jarak aman bawah */
+}
+
 </style>
 """, unsafe_allow_html=True)
 
