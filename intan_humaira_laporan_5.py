@@ -16,15 +16,13 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="HoloFruits Vision Dashboard", layout="wide")
 # ==========================
 # 🎨 FINAL CSS DASHBOARD TEMA MAROON-ORANGE STATISTIKA SEGAR 🍊📊
-# ==========================
-st.markdown("""
 <style>
 
-/* ====== BACKGROUND GRADIENT BERGERAK ====== */
+/* ====== BACKGROUND MAROON KALEM BERGERAK ====== */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(120deg, #fff6f2 0%, #fbe4d8 40%, #f7d1c0 80%);
+    background: linear-gradient(120deg, #faf7f8 0%, #f1e1e3 40%, #e6ccd0 80%);
     background-size: 300% 300%;
-    animation: gradientFlow 18s ease infinite;
+    animation: gradientFlow 20s ease infinite;
     min-height: 100vh;
     overflow: auto;
 }
@@ -34,12 +32,12 @@ st.markdown("""
     100% {background-position: 0% 50%;}
 }
 
-/* ====== TITIK DATA HALUS ====== */
+/* ====== TITIK STATISTIK HALUS ====== */
 [data-testid="stAppViewContainer"]::after {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(rgba(150,50,0,0.08) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(120, 40, 40, 0.08) 1px, transparent 1px);
     background-size: 28px 28px;
     animation: moveDots 30s linear infinite;
     z-index: 0;
@@ -49,24 +47,23 @@ st.markdown("""
     100% {background-position: 120px 120px;}
 }
 
-/* ====== IKON TEMATIK (STATISTIKA + BUAH) ====== */
+/* ====== IKON KECIL BERTEMA STATISTIKA ====== */
 [data-testid="stAppViewContainer"]::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image:
-        url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),   /* bar chart */
-        url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
-        url('https://cdn-icons-png.flaticon.com/512/766/766514.png');   /* pisang */
-
+        url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),
+        url('https://cdn-icons-png.flaticon.com/512/4149/4149686.png'),
+        url('https://cdn-icons-png.flaticon.com/512/2306/2306164.png');
     background-repeat: no-repeat;
-    background-size: 180px, 150px, 200px, 140px;
-    background-position: 10% 15%, 80% 20%, 15% 85%, 70% 75%;
+    background-size: 150px, 140px, 160px;
+    background-position: 8% 15%, 75% 25%, 60% 80%;
     opacity: 0.05;
     z-index: 0;
 }
 
-/* ====== KONTEN TIDAK TERPOTONG (BIAR BISA DISCROLL) ====== */
+/* ====== KONTEN TIDAK TERPOTONG ====== */
 .block-container {
     max-width: 1050px;
     margin: auto;
@@ -83,16 +80,16 @@ st.markdown("""
     background: rgba(255,255,255,0.7);
     padding: 18px 30px;
     border-radius: 20px;
-    box-shadow: 0 4px 25px rgba(180,70,30,0.2);
+    box-shadow: 0 4px 25px rgba(120,40,40,0.2);
     backdrop-filter: blur(10px);
     margin-bottom: 25px;
-    border: 1px solid rgba(200,130,100,0.25);
+    border: 1px solid rgba(200,150,150,0.25);
     z-index: 2;
 }
 .header img {
-    width: 110px;
+    width: 130px;
     margin-right: 22px;
-    filter: drop-shadow(0 0 12px rgba(200,80,40,0.4));
+    filter: drop-shadow(0 0 12px rgba(160,70,70,0.4));
     animation: float 4s ease-in-out infinite;
 }
 @keyframes float {
@@ -102,13 +99,13 @@ st.markdown("""
 
 /* ====== ANIMASI JUDUL BERGERAK ====== */
 .title-text {
-    font-size: 36px;
+    font-size: 38px;
     font-weight: 800;
-    background: linear-gradient(90deg, #7a1f1f, #c54a2f, #f28705);
+    background: linear-gradient(90deg, #5e0d0d, #9c3636, #d47c59);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shine 5s linear infinite;
-    text-shadow: 0 0 25px rgba(180,60,30,0.25);
+    text-shadow: 0 0 25px rgba(160,60,60,0.25);
 }
 @keyframes shine {
     0% {background-position: 0%;}
@@ -120,8 +117,8 @@ st.markdown("""
     background: rgba(255,255,255,0.85);
     border-radius: 18px;
     padding: 20px;
-    border: 1px solid rgba(220,150,120,0.3);
-    box-shadow: 0 6px 22px rgba(150,50,0,0.1);
+    border: 1px solid rgba(180,100,100,0.3);
+    box-shadow: 0 6px 22px rgba(120,40,40,0.1);
     backdrop-filter: blur(14px);
     margin-bottom: 25px;
 }
@@ -129,14 +126,12 @@ st.markdown("""
 /* ====== FOOTER ====== */
 footer {
     text-align: center;
-    color: #7a1c1c;
+    color: #5e0d0d;
     margin-top: 45px;
     font-size: 14px;
     opacity: 0.8;
 }
-
 </style>
-""", unsafe_allow_html=True)
 
 # ==========================
 # HEADER
