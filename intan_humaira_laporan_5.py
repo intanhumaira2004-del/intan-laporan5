@@ -58,7 +58,6 @@ st.markdown("""
     background-image:
         url('https://cdn-icons-png.flaticon.com/512/686/686589.png'),   /* bar chart */
         url('https://cdn-icons-png.flaticon.com/512/415/415733.png'),   /* apel */
-        url('https://cdn-icons-png.flaticon.com/512/4149/4149676.png'), /* grafik garis */
         url('https://cdn-icons-png.flaticon.com/512/766/766514.png');   /* pisang */
 
     background-repeat: no-repeat;
